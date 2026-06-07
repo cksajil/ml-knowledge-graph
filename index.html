@@ -418,6 +418,113 @@
     pointer-events: none;
   }
 
+  /* ─── ABOUT PANEL ────────────────────────────────────────── */
+  #about-panel {
+    position: fixed;
+    top: var(--header-h); left: 0; bottom: 0;
+    width: 360px;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    transform: translateX(-100%);
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 200;
+    overflow-y: auto;
+  }
+  #about-panel.open { transform: translateX(0); }
+  #about-panel::-webkit-scrollbar { width: 4px; }
+  #about-panel::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+
+  .about-inner {
+    padding: 28px 24px 32px;
+    position: relative;
+  }
+
+  .about-avatar {
+    width: 72px; height: 72px;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg, var(--c-foundations), var(--c-ml-core), var(--c-deep-learning), var(--c-nlp), var(--c-mlops));
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 22px; font-weight: 700;
+    color: white;
+    margin: 0 auto 16px;
+    box-shadow: 0 0 0 3px var(--surface), 0 0 0 5px var(--border2);
+  }
+
+  .about-name {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 22px; font-weight: 700;
+    color: var(--text);
+    text-align: center;
+    margin-bottom: 4px;
+  }
+  .about-role {
+    font-size: 13px; color: var(--accent);
+    text-align: center; font-weight: 500;
+    margin-bottom: 4px;
+  }
+  .about-org {
+    font-size: 11px; color: var(--text3);
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .about-bio {
+    font-size: 13px; line-height: 1.65;
+    color: var(--text2);
+    margin-bottom: 20px;
+    padding: 14px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+  }
+
+  .about-links {
+    display: flex; gap: 8px; flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 24px;
+  }
+  .about-link {
+    font-size: 12px; font-weight: 600;
+    padding: 7px 14px; border-radius: 8px;
+    border: 1px solid var(--border2);
+    color: var(--text2); text-decoration: none;
+    transition: all 0.2s;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .about-link:hover { color: var(--text); border-color: var(--accent); }
+  .about-link.linkedin { border-color: #0a66c2; color: #4da3ff; }
+  .about-link.linkedin:hover { background: rgba(10,102,194,0.1); }
+
+  .about-section-title {
+    font-size: 10px; text-transform: uppercase;
+    letter-spacing: 1.5px; color: var(--text3);
+    font-weight: 600; margin-bottom: 10px;
+  }
+
+  .about-pubs {
+    margin-bottom: 20px;
+  }
+  .about-pub {
+    font-size: 12px; color: var(--text2);
+    padding: 7px 10px;
+    border-left: 2px solid var(--border2);
+    margin-bottom: 6px;
+    line-height: 1.4;
+  }
+
+  .about-tags {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    margin-bottom: 20px;
+  }
+  .about-tags span {
+    font-size: 11px; font-weight: 500;
+    padding: 4px 10px; border-radius: 20px;
+    background: var(--bg3);
+    border: 1px solid var(--border2);
+    color: var(--text2);
+  }
+
 </style>
 </head>
 <body>
@@ -461,6 +568,48 @@
   <div class="panel-body" id="panel-body"></div>
 </div>
 
+<!-- ─── ABOUT PANEL ────────────────────────────────────────── -->
+<div id="about-panel">
+  <div class="about-inner">
+    <button class="panel-close" onclick="toggleAbout()" style="top:16px;right:16px;">✕</button>
+
+    <div class="about-avatar">SC</div>
+
+    <div class="about-name">Sajil C. K.</div>
+    <div class="about-role">ML Engineer &amp; Educator</div>
+    <div class="about-org">ICT Academy of Kerala · Thiruvananthapuram</div>
+
+    <div class="about-bio">
+      PhD in Signal Processing &amp; Computational Biology (University of Kerala).
+      3+ years in deep learning, computer vision, edge ML, and GenAI.
+      Teaching ML &amp; AI in Malayalam to make the field accessible to everyone.
+    </div>
+
+    <div class="about-links" id="about-links"></div>
+
+    <div class="about-section-title">Research &amp; Publications</div>
+    <div class="about-pubs">
+      <div class="about-pub">📄 IEEE RAICS 2024</div>
+      <div class="about-pub">📄 IJBCE 2020</div>
+      <div class="about-pub">📄 IEEE SPIN 2018</div>
+      <div class="about-pub">📄 Journal of Cell Communication &amp; Signaling 2019</div>
+    </div>
+
+    <div class="about-section-title">Tech Stack</div>
+    <div class="about-tags">
+      <span>PyTorch</span><span>TensorFlow</span><span>JAX/Flax</span>
+      <span>HuggingFace</span><span>OpenCV</span><span>LangChain</span>
+      <span>FastAPI</span><span>Docker</span><span>Gradio</span>
+    </div>
+
+    <div class="about-section-title">Channel</div>
+    <div class="about-bio" style="margin-bottom:0">
+      <strong>Machine Learning Malayalam</strong> — teaching Data Science, ML &amp; Python
+      in Malayalam. This knowledge graph is a map of everything covered on the channel.
+    </div>
+  </div>
+</div>
+
 <!-- ─── LEGEND ─────────────────────────────────────────────── -->
 <div class="legend" id="legend"></div>
 
@@ -481,7 +630,1780 @@
 <div class="hint" id="hint">Click a node to explore · Scroll to zoom · Drag to pan</div>
 
 <!-- ─── DATA ─────────────────────────────────────────────────── -->
-<script src="graph-data.js"></script>
+<script>
+const GRAPH_DATA = {
+
+  meta: {
+    title: "ML & AI Knowledge Graph",
+    subtitle: "by Sajil C. K. — Machine Learning Malayalam",
+    channelUrl: "https://www.youtube.com/@sajil36",
+    githubUrl: "https://github.com/cksajil",
+    websiteUrl: "https://intuitivetutorial.com",
+    linkedinUrl: "https://linkedin.com/in/sajilck",
+  },
+
+  nodes: [
+    {
+      id: "two-areas-statistics",
+      label: "Two Areas of Statistics",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Overview of descriptive and inferential statistics and their role in data science.",
+      resources: [{"type": "video", "label": "Two areas of statistics", "url": "https://www.youtube.com/embed/FePF2YIdntM", "duration": ""}, {"type": "video", "label": "Intro to Descriptive Statistics", "url": "https://www.youtube.com/embed/8Q4oSDfhso8", "duration": ""}, {"type": "blog", "label": "Session Notes — Mathematics for Data Science and Machine", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_15.md"}]
+    },
+    {
+      id: "math-for-dsml",
+      label: "Math for DSML",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Why mathematics is essential for data science and machine learning careers.",
+      resources: [{"type": "video", "label": "Math4DSML", "url": "https://www.youtube.com/embed/R3Lf-MyQ9Cg", "duration": ""}, {"type": "video", "label": "math notations 1", "url": "https://www.youtube.com/embed/aT3Oc4Z--qQ", "duration": ""}, {"type": "video", "label": " Measures of central tendency", "url": "https://www.youtube.com/embed/Q3WDm0OV_DY", "duration": ""}, {"type": "video", "label": "Percentiles and Quartiles", "url": "https://www.youtube.com/embed/5Zb8EExsXsI", "duration": ""}, {"type": "video", "label": "Finding outliers using Quartiles", "url": "https://www.youtube.com/embed/sK0QbCA81Fg", "duration": ""}, {"type": "video", "label": "Measures of dispersion", "url": "https://www.youtube.com/embed/LumyZy9-MLk", "duration": ""}, {"type": "video", "label": "corr_cause", "url": "https://www.youtube.com/embed/gh1MV72Otm0", "duration": ""}, {"type": "blog", "label": "Session Notes — Mathematics for Data Science and Machine", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_15.md"}]
+    },
+    {
+      id: "why-functions",
+      label: "Why Functions",
+      domain: "foundations",
+      level: "beginner",
+      summary: "The concept of mathematical functions and their importance in ML models.",
+      resources: [{"type": "video", "label": "Functions in Mathematics", "url": "https://www.youtube.com/embed/gWRvE2_RR98", "duration": ""}, {"type": "video", "label": "Visualizing Functions", "url": "https://www.youtube.com/embed/W7S4tFQxDWY", "duration": ""}, {"type": "video", "label": "infinity", "url": "https://www.youtube.com/embed/0IOfGyncK3g", "duration": ""}, {"type": "video", "label": "concept of derivative", "url": "https://www.youtube.com/embed/JpQUtO09xi8", "duration": ""}, {"type": "video", "label": "Direction in Derivative", "url": "https://www.youtube.com/embed/-rofr5JMOpU", "duration": ""}, {"type": "video", "label": "Partial Derivative", "url": "https://www.youtube.com/embed/P8VbRBfEPXc", "duration": ""}, {"type": "blog", "label": "Session Notes — Calculus for Data Science", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_22.md"}]
+    },
+    {
+      id: "vscode-intro",
+      label: "VS Code Intro",
+      domain: "tools",
+      level: "beginner",
+      summary: "Quick introduction to Visual Studio Code as a development environment for ML.",
+      resources: [{"type": "video", "label": "Quick Intro to VS Code", "url": "https://www.youtube.com/embed/cds3AVwB_lI", "duration": ""}, {"type": "blog", "label": "Session Notes — Data Science Tools", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_07.md"}]
+    },
+    {
+      id: "ds-installation",
+      label: "DS Installation",
+      domain: "tools",
+      level: "beginner",
+      summary: "Installing Python, Jupyter, and essential data science libraries from scratch.",
+      resources: [{"type": "video", "label": "Data Science Installation Requirements", "url": "https://www.youtube.com/embed/_fuAooCJTpA", "duration": ""}]
+    },
+    {
+      id: "touch-typing",
+      label: "Touch Typing",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Why touch typing is a high-leverage foundational skill for developers.",
+      resources: [{"type": "video", "label": "typing_club", "url": "https://www.youtube.com/embed/zogFqFJivwI", "duration": ""}, {"type": "blog", "label": "Session Notes — IT Foundations for Data Science", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_02.md"}]
+    },
+    {
+      id: "github-profile",
+      label: "GitHub Profile",
+      domain: "tools",
+      level: "beginner",
+      summary: "Importance of a strong GitHub profile for landing data science jobs.",
+      resources: [{"type": "video", "label": "github_dsml", "url": "https://www.youtube.com/embed/8VPh9Yk9QZI", "duration": ""}, {"type": "blog", "label": "Session Notes — IT Foundations for Data Science", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_02.md"}]
+    },
+    {
+      id: "descriptive-stats",
+      label: "Descriptive Statistics",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Key concepts in descriptive statistics including mean, median, mode, and spread.",
+      resources: [{"type": "video", "label": "Descriptive Statistics", "url": "https://www.youtube.com/embed/XLIDV976zr0", "duration": ""}, {"type": "blog", "label": "Session Notes — Mathematics for Data Science and Machine", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_15.md"}]
+    },
+    {
+      id: "python-numeric",
+      label: "Python Numeric Types",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Python's integer and float types, operations, and numeric data handling.",
+      resources: [{"type": "video", "label": "Python Numeric Data Types", "url": "https://www.youtube.com/embed/IMrXLi2laS4", "duration": ""}, {"type": "video", "label": "Python String", "url": "https://www.youtube.com/embed/MTgNjXlO9po", "duration": ""}, {"type": "video", "label": "Python List", "url": "https://www.youtube.com/embed/GI-PeOJDAps", "duration": ""}, {"type": "video", "label": "Python Tuple", "url": "https://www.youtube.com/embed/0U4h0hDkH7k", "duration": ""}, {"type": "video", "label": "Python Set", "url": "https://www.youtube.com/embed/RDGxJFbDcag", "duration": ""}, {"type": "video", "label": "Python Standard I/O", "url": "https://www.youtube.com/embed/iFZlU-ZWuzg", "duration": ""}, {"type": "blog", "label": "Session Notes — Python Data Types", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_08.md"}]
+    },
+    {
+      id: "python-strings",
+      label: "Python Strings",
+      domain: "foundations",
+      level: "beginner",
+      summary: "String data type in Python \u2014 creation, indexing, slicing, and common methods.",
+      resources: [{"type": "video", "label": "Python Strings", "url": "https://www.youtube.com/embed/MTgNjXlO9po", "duration": ""}, {"type": "blog", "label": "Session Notes — Python Data Types", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_08.md"}]
+    },
+    {
+      id: "python-lists",
+      label: "Python Lists",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Python lists \u2014 creating, accessing, modifying, and iterating over list elements.",
+      resources: [{"type": "video", "label": "Python Lists", "url": "https://www.youtube.com/embed/GI-PeOJDAps", "duration": ""}, {"type": "blog", "label": "Session Notes — Python Data Types", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_08.md"}]
+    },
+    {
+      id: "python-tuples",
+      label: "Python Tuples",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Immutable sequences in Python and when to use tuples over lists.",
+      resources: [{"type": "video", "label": "Python Tuples", "url": "https://www.youtube.com/embed/0U4h0hDkH7k", "duration": ""}, {"type": "blog", "label": "Session Notes — Python Data Types", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_08.md"}]
+    },
+    {
+      id: "python-range",
+      label: "Python Range",
+      domain: "foundations",
+      level: "beginner",
+      summary: "The range data type in Python and its use in loops and sequences.",
+      resources: [{"type": "video", "label": "Python Range", "url": "https://www.youtube.com/embed/i9mJngeSCHw", "duration": ""}, {"type": "blog", "label": "Session Notes — Python Data Types", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_08.md"}]
+    },
+    {
+      id: "python-dict",
+      label: "Python Dictionaries",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Key-value data storage in Python using dictionaries with common operations.",
+      resources: [{"type": "video", "label": "Python Dictionary", "url": "https://www.youtube.com/embed/ZtqoZ34W8lA", "duration": ""}, {"type": "blog", "label": "Session Notes — Python Data Types", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_08.md"}]
+    },
+    {
+      id: "python-sets",
+      label: "Python Sets",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Python sets for storing unique elements and performing set operations.",
+      resources: [{"type": "video", "label": "Python Sets", "url": "https://www.youtube.com/embed/RDGxJFbDcag", "duration": ""}, {"type": "blog", "label": "Session Notes — Python Data Types", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_08.md"}]
+    },
+    {
+      id: "python-boolean",
+      label: "Python Booleans",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Boolean data type, True/False values, and logical expressions in Python.",
+      resources: [{"type": "video", "label": "Python Boolean", "url": "https://www.youtube.com/embed/94huU3v5TAU", "duration": ""}, {"type": "blog", "label": "Session Notes — Python Data Types", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_08.md"}]
+    },
+    {
+      id: "python-none",
+      label: "Python None Type",
+      domain: "foundations",
+      level: "beginner",
+      summary: "The None type in Python representing absence of value and its common uses.",
+      resources: [{"type": "video", "label": "Python None", "url": "https://www.youtube.com/embed/AR5nH9qF2sM", "duration": ""}, {"type": "blog", "label": "Session Notes — Python Data Types", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_08.md"}]
+    },
+    {
+      id: "python-arithmetic",
+      label: "Python Arithmetic Ops",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Arithmetic operators in Python including addition, subtraction, multiplication, and division.",
+      resources: [{"type": "video", "label": "Python Arithmetic Ops", "url": "https://www.youtube.com/embed/5Rzy8ikgsts", "duration": ""}, {"type": "blog", "label": "Session Notes — Python Data Types", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_08.md"}]
+    },
+    {
+      id: "python-operators",
+      label: "Python Operators",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Comparison, logical, and assignment operators in Python with examples.",
+      resources: [{"type": "video", "label": "Python Operators 1", "url": "https://www.youtube.com/embed/5Rzy8ikgsts", "duration": ""}, {"type": "video", "label": "Python Operators 2", "url": "https://www.youtube.com/embed/5I0FYZVyYeU", "duration": ""}, {"type": "blog", "label": "Session Notes — Python Data Types", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_08.md"}]
+    },
+    {
+      id: "python-if",
+      label: "Python IF Statement",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Conditional logic in Python using the if statement for decision making.",
+      resources: [{"type": "video", "label": "Python IF", "url": "https://www.youtube.com/embed/nY4XQDsZzFY", "duration": ""}, {"type": "blog", "label": "Session Notes — Control Flow", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_09.md"}]
+    },
+    {
+      id: "python-if-else",
+      label: "Python If Else",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Two-way branching in Python using if-else for handling alternate conditions.",
+      resources: [{"type": "video", "label": "Python IF-ELSE", "url": "https://www.youtube.com/embed/lE3IGtyXjLg", "duration": ""}, {"type": "video", "label": "Python IF-ELIF-ELSE", "url": "https://www.youtube.com/embed/YDBZ0rban3M", "duration": ""}, {"type": "blog", "label": "Session Notes — Control Flow", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_09.md"}]
+    },
+    {
+      id: "python-if-elif",
+      label: "Python If Elif Else",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Multi-way branching in Python using if-elif-else chains.",
+      resources: [{"type": "video", "label": "Python If Elif Else", "url": "https://www.youtube.com/embed/YDBZ0rban3M", "duration": ""}, {"type": "blog", "label": "Session Notes — Control Flow", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_09.md"}]
+    },
+    {
+      id: "operator-overloading",
+      label: "Operator Overloading",
+      domain: "foundations",
+      level: "intermediate",
+      summary: "How Python allows redefining operator behavior for custom objects.",
+      resources: [{"type": "video", "label": "Operator Overloading", "url": "https://www.youtube.com/embed/lal8F6H1bXc", "duration": ""}, {"type": "blog", "label": "Session Notes — Python Data Types", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_08.md"}]
+    },
+    {
+      id: "python-for-loop",
+      label: "Python For Loop",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Iterating over sequences in Python using the for loop.",
+      resources: [{"type": "video", "label": "Python For Loop", "url": "https://www.youtube.com/embed/oywGQ0wVJQs", "duration": ""}, {"type": "blog", "label": "Session Notes — Loops & Functions in Python", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_10.md"}]
+    },
+    {
+      id: "python-while-loop",
+      label: "Python While Loop",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Repeating code blocks in Python using the while loop with conditions.",
+      resources: [{"type": "video", "label": "Python For While Loop", "url": "https://www.youtube.com/embed/6mKpZdIfnew", "duration": ""}, {"type": "blog", "label": "Session Notes — Loops & Functions in Python", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_10.md"}]
+    },
+    {
+      id: "break-continue",
+      label: "Break and Continue",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Controlling loop flow in Python using break and continue statements.",
+      resources: [{"type": "video", "label": "Python Continue-break", "url": "https://www.youtube.com/embed/Vv8YQqvg4KQ", "duration": ""}, {"type": "video", "label": "Python Continue-break", "url": "https://www.youtube.com/embed/DHfuVRoTC9o", "duration": ""}, {"type": "blog", "label": "Session Notes — Loops & Functions in Python", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_10.md"}]
+    },
+    {
+      id: "python-functions",
+      label: "Python Functions",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Defining and calling reusable code blocks using functions in Python.",
+      resources: [{"type": "video", "label": "Python Intro to Functions", "url": "https://www.youtube.com/embed/a3tlV9LZ6aQ", "duration": ""}, {"type": "blog", "label": "Session Notes — Loops & Functions in Python", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_10.md"}]
+    },
+    {
+      id: "python-input-output",
+      label: "Python Input Output",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Standard input and output functions in Python for reading and printing data.",
+      resources: [{"type": "video", "label": "Python Input Output", "url": "https://www.youtube.com/embed/iFZlU-ZWuzg", "duration": ""}, {"type": "blog", "label": "Session Notes — Python Data Types", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_08.md"}]
+    },
+    {
+      id: "function-arguments",
+      label: "Function Arguments",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Passing and returning values in Python functions using input/output arguments.",
+      resources: [{"type": "video", "label": "Function Arguments", "url": "https://www.youtube.com/embed/DHfuVRoTC9o", "duration": ""}, {"type": "blog", "label": "Session Notes — Loops & Functions in Python", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_10.md"}]
+    },
+    {
+      id: "default-arguments",
+      label: "Default Arguments",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Setting default parameter values in Python functions for flexible calling.",
+      resources: [{"type": "video", "label": "Python Default Arguments", "url": "https://www.youtube.com/embed/96JrQ1cZsSQ", "duration": ""}, {"type": "blog", "label": "Session Notes — Loops & Functions in Python", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_10.md"}]
+    },
+    {
+      id: "intro-oops",
+      label: "Intro to OOPs",
+      domain: "foundations",
+      level: "intermediate",
+      summary: "Object-oriented programming concepts \u2014 classes, objects, and encapsulation in Python.",
+      resources: [{"type": "video", "label": "Python OOPs Intro", "url": "https://www.youtube.com/embed/dw0A_xw0glA", "duration": ""}, {"type": "blog", "label": "Session Notes — Object Oriented Programming (OOP)", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_11.md"}]
+    },
+    {
+      id: "python-objects",
+      label: "Python Objects",
+      domain: "foundations",
+      level: "intermediate",
+      summary: "Creating and using objects from classes in Python.",
+      resources: [{"type": "video", "label": "Python Objects", "url": "https://www.youtube.com/embed/HXxxa2mxG6c", "duration": ""}, {"type": "video", "label": "Python practice 001", "url": "https://www.youtube.com/embed/fc7VKrSvF_E", "duration": ""}, {"type": "video", "label": "Python practice 002", "url": "https://www.youtube.com/embed/GSWETBkd6Ho", "duration": ""}, {"type": "video", "label": "Python practice 003", "url": "https://www.youtube.com/embed/DY8N-xNhrsY", "duration": ""}, {"type": "video", "label": "Python practice 004", "url": "https://www.youtube.com/embed/v6r0GBcY730", "duration": ""}, {"type": "video", "label": "Python practice 005", "url": "https://www.youtube.com/embed/eBLzUiQaeL8", "duration": ""}, {"type": "video", "label": "Python practice 006", "url": "https://www.youtube.com/embed/vsaN5bgTBek", "duration": ""}, {"type": "video", "label": "Python practice 007", "url": "https://www.youtube.com/embed/rFocOiHnbEs", "duration": ""}, {"type": "blog", "label": "Session Notes — Object Oriented Programming (OOP)", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_11.md"}]
+    },
+    {
+      id: "class-inheritance",
+      label: "Class Inheritance",
+      domain: "foundations",
+      level: "intermediate",
+      summary: "Inheriting and extending class behavior in Python using inheritance.",
+      resources: [{"type": "video", "label": "Python Class Inheritance", "url": "https://www.youtube.com/embed/oWwdVik7qU0", "duration": ""}, {"type": "blog", "label": "Session Notes — Object Oriented Programming (OOP)", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_11.md"}]
+    },
+    {
+      id: "markdown-format",
+      label: "Markdown Format",
+      domain: "tools",
+      level: "beginner",
+      summary: "Writing formatted documentation using Markdown for GitHub and Jupyter notebooks.",
+      resources: [{"type": "video", "label": "markdown", "url": "https://www.youtube.com/embed/i5X5VYzEJCo", "duration": ""}, {"type": "blog", "label": "Session Notes — Data Science Tools", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_07.md"}]
+    },
+    {
+      id: "intro-git-bash",
+      label: "Intro to Git Bash",
+      domain: "tools",
+      level: "beginner",
+      summary: "Version control basics using Git Bash \u2014 the most powerful tool for data science.",
+      resources: [{"type": "video", "label": "Git Bash", "url": "https://www.youtube.com/embed/cWnPSnpLb2M", "duration": ""}, {"type": "video", "label": "Command Line Basics", "url": "https://www.youtube.com/embed/B5ISXHnYVCg", "duration": ""}, {"type": "blog", "label": "Session Notes — Command Line Basics", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_14.md"}, {"type": "video", "label": "HTML CSS 1", "url": "https://www.youtube.com/embed/vLOltaWPIz0", "duration": ""}, {"type": "video", "label": "HTML CSS 2", "url": "https://www.youtube.com/embed/T-18Cpclsn4", "duration": ""}, {"type": "video", "label": "HTML CSS 3", "url": "https://www.youtube.com/embed/vuR0nGMnytE", "duration": ""}, {"type": "video", "label": "HTML CSS 4", "url": "https://www.youtube.com/embed/xF_q_XAP4g4", "duration": ""}, {"type": "blog", "label": "Session Notes — Introduction to HTML and CSS", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_51.md"}]
+    },
+    {
+      id: "basics-notation",
+      label: "Math Notation Basics",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Reading and writing mathematical notation used in ML papers and textbooks.",
+      resources: [{"type": "video", "label": "Math Notation Basics", "url": "https://www.youtube.com/embed/aT3Oc4Z--qQ", "duration": ""}, {"type": "blog", "label": "Session Notes — Mathematics for Data Science and Machine", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_15.md"}]
+    },
+    {
+      id: "abstract-math",
+      label: "Abstract Mathematics",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Understanding the abstract nature of mathematics and how it applies to ML.",
+      resources: [{"type": "video", "label": "about_math", "url": "https://www.youtube.com/embed/JfoQp_btlHo", "duration": ""}, {"type": "video", "label": "orthogonality", "url": "https://www.youtube.com/embed/oDjwNhk1jSs", "duration": ""}, {"type": "video", "label": "mat_inv", "url": "https://www.youtube.com/embed/BXS7Ccb-Us8", "duration": ""}, {"type": "video", "label": "mat_trans", "url": "https://www.youtube.com/embed/MmL-KLK-a9c", "duration": ""}, {"type": "video", "label": "mat_inv", "url": "https://www.youtube.com/embed/BSlbJ8gwZMM", "duration": ""}, {"type": "video", "label": "eigen_val_vec", "url": "https://www.youtube.com/embed/vrEPiB5-7d8", "duration": ""}, {"type": "blog", "label": "Session Notes — Mathematics and its Abstract Nature", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_19.md"}]
+    },
+    {
+      id: "multivariable-assign",
+      label: "Multivariable Assignment",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Assigning multiple variables simultaneously and formatted printing in Python.",
+      resources: [{"type": "video", "label": "Multivariable Assignment", "url": "https://www.youtube.com/embed/qwwPc2bxkx8", "duration": ""}, {"type": "blog", "label": "Session Notes — Python Data Types", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_08.md"}]
+    },
+    {
+      id: "print-formatting",
+      label: "Python Print Formatting",
+      domain: "foundations",
+      level: "beginner",
+      summary: "String formatting techniques in Python using f-strings and format methods.",
+      resources: [{"type": "video", "label": "Python Print Formatting", "url": "https://www.youtube.com/embed/LoBQw86XT5Y", "duration": ""}, {"type": "video", "label": "Python Print Formatting", "url": "https://www.youtube.com/embed/qwwPc2bxkx8", "duration": ""}, {"type": "blog", "label": "Session Notes — Python Data Types", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_08.md"}]
+    },
+    {
+      id: "list-operations",
+      label: "Python List Operations",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Advanced list operations in Python including sorting, slicing, and list methods.",
+      resources: [{"type": "video", "label": "Python List Operations", "url": "https://www.youtube.com/embed/fLHKIrht5j0", "duration": ""}, {"type": "blog", "label": "Session Notes — Python Data Types", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_08.md"}]
+    },
+    {
+      id: "split-join",
+      label: "Split and Join",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Splitting strings into lists and joining lists back into strings in Python.",
+      resources: [{"type": "video", "label": "Python split join", "url": "https://www.youtube.com/embed/_W--TwDA6Nk", "duration": ""}, {"type": "blog", "label": "Session Notes — Control Flow", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_09.md"}]
+    },
+    {
+      id: "vectors-intro",
+      label: "Vectors Introduction",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Understanding vectors, their dimensions, and directions in linear algebra.",
+      resources: [{"type": "video", "label": "row_col_vectors", "url": "https://www.youtube.com/embed/JAdl83M-e_s", "duration": ""}, {"type": "blog", "label": "Session Notes — Mathematics and its Abstract Nature", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_19.md"}]
+    },
+    {
+      id: "vector-as-force",
+      label: "Vector as Force",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Visualizing vectors as pushes or forces in a direction for ML intuition.",
+      resources: [{"type": "video", "label": "vector_push", "url": "https://www.youtube.com/embed/GZjHB-zwcLY", "duration": ""}, {"type": "video", "label": "vector_direction", "url": "https://www.youtube.com/embed/ks7YatPVfxI", "duration": ""}, {"type": "video", "label": "basis_vector", "url": "https://www.youtube.com/embed/S1ipna8-ipM", "duration": ""}, {"type": "blog", "label": "Session Notes — Mathematics and its Abstract Nature", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_19.md"}]
+    },
+    {
+      id: "basis-vectors",
+      label: "Basis Vectors",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Expressing vectors as combinations of basis vectors in linear algebra.",
+      resources: [{"type": "video", "label": "Basis Vectors", "url": "https://www.youtube.com/embed/S1ipna8-ipM", "duration": ""}, {"type": "blog", "label": "Session Notes — Mathematics and its Abstract Nature", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_19.md"}]
+    },
+    {
+      id: "vector-magnitude",
+      label: "Vector Magnitude",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Computing the magnitude or length of a vector using the Euclidean norm.",
+      resources: [{"type": "video", "label": "vector_magnitude", "url": "https://www.youtube.com/embed/GdGxteaAt3M", "duration": ""}, {"type": "blog", "label": "Session Notes — Mathematics and its Abstract Nature", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_19.md"}]
+    },
+    {
+      id: "unit-vector",
+      label: "Unit Vector",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Understanding unit vectors and normalizing vectors to unit length.",
+      resources: [{"type": "video", "label": "unit_vector", "url": "https://www.youtube.com/embed/l-CbspzeHlY", "duration": ""}, {"type": "blog", "label": "Session Notes — Mathematics and its Abstract Nature", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_19.md"}]
+    },
+    {
+      id: "dot-product",
+      label: "Dot Product",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Vector dot product, its geometric interpretation, and orthogonality in ML.",
+      resources: [{"type": "video", "label": "dot_product", "url": "https://www.youtube.com/embed/tqxq3XBW53E", "duration": ""}, {"type": "blog", "label": "Session Notes — Mathematics and its Abstract Nature", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_19.md"}]
+    },
+    {
+      id: "resume-guidelines",
+      label: "Resume Guidelines",
+      domain: "tools",
+      level: "beginner",
+      summary: "Practical guidelines for writing a strong data science and ML resume.",
+      resources: [{"type": "video", "label": "resume", "url": "https://www.youtube.com/embed/Y3uWpQlTIWU", "duration": ""}, {"type": "blog", "label": "Session Notes — IT Foundations for Data Science", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_02.md"}]
+    },
+    {
+      id: "orthogonality",
+      label: "Orthogonality",
+      domain: "foundations",
+      level: "beginner",
+      summary: "The concept of orthogonality between vectors and its significance in ML.",
+      resources: [{"type": "video", "label": "Orthogonality", "url": "https://www.youtube.com/embed/oDjwNhk1jSs", "duration": ""}, {"type": "blog", "label": "Session Notes — Mathematics for Data Science and Machine", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_15.md"}]
+    },
+    {
+      id: "cosine-similarity",
+      label: "Cosine Similarity",
+      domain: "foundations",
+      level: "intermediate",
+      summary: "Measuring similarity between vectors using cosine similarity \u2014 key for NLP and search.",
+      resources: [{"type": "video", "label": "Cosine Similarity", "url": "https://www.youtube.com/embed/LfjWIj9yW4s", "duration": ""}, {"type": "blog", "label": "Session Notes — Mathematics for Data Science and Machine", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_15.md"}]
+    },
+    {
+      id: "vector-projection",
+      label: "Vector Projection",
+      domain: "foundations",
+      level: "intermediate",
+      summary: "Projecting one vector onto another and its applications in dimensionality reduction.",
+      resources: [{"type": "video", "label": "vector_projection", "url": "https://www.youtube.com/embed/BXS7Ccb-Us8", "duration": ""}, {"type": "blog", "label": "Session Notes — Mathematics and its Abstract Nature", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_19.md"}]
+    },
+    {
+      id: "colab-tutorial-1",
+      label: "Google Colab Part 1",
+      domain: "tools",
+      level: "beginner",
+      summary: "Getting started with Google Colab \u2014 setting up notebooks and running Python in the cloud.",
+      resources: [{"type": "video", "label": "Data Science Tools", "url": "https://www.youtube.com/embed/_fuAooCJTpA", "duration": ""}, {"type": "video", "label": "Google Colab Tutorial 1", "url": "https://www.youtube.com/embed/cswmnpVymHQ", "duration": ""}, {"type": "video", "label": "Google Colab Tutorial 2", "url": "https://www.youtube.com/embed/bh820H9MD3k", "duration": ""}, {"type": "video", "label": "Kaggle Tutorial", "url": "https://www.youtube.com/embed/IgihTAagHHk", "duration": ""}, {"type": "video", "label": "VS Extensions 1", "url": "https://www.youtube.com/embed/sqJhKbsZqtA", "duration": ""}, {"type": "video", "label": "VS Extensions 2", "url": "https://www.youtube.com/embed/1XgCiD5QHQU", "duration": ""}, {"type": "video", "label": "VS Extensions 3", "url": "https://www.youtube.com/embed/rxhtjmuM6E0", "duration": ""}, {"type": "blog", "label": "Session Notes — Data Science Tools", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_07.md"}]
+    },
+    {
+      id: "correlation-heatmap",
+      label: "Correlation Heatmap",
+      domain: "tools",
+      level: "intermediate",
+      summary: "Visualizing feature correlations using an upper triangular heatmap in seaborn.",
+      resources: [{"type": "video", "label": "Triangular Correlation Heatmap", "url": "https://www.youtube.com/embed/7RMbrZgUBp8", "duration": ""}, {"type": "blog", "label": "Session Notes — Data Visualization and Feature Engineeri", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_35.md"}]
+    },
+    {
+      id: "tqdm-library",
+      label: "TQDM Library",
+      domain: "tools",
+      level: "beginner",
+      summary: "Adding progress bars to Python loops using the TQDM library.",
+      resources: [{"type": "video", "label": "TQDM Library", "url": "https://www.youtube.com/embed/v6r0GBcY730", "duration": ""}, {"type": "blog", "label": "Session Notes — Loops & Functions in Python", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_10.md"}]
+    },
+    {
+      id: "colab-tutorial-2",
+      label: "Google Colab Part 2",
+      domain: "tools",
+      level: "beginner",
+      summary: "Advanced Google Colab features \u2014 GPU access, file handling, and drive integration.",
+      resources: [{"type": "video", "label": "Google Colab Part 2", "url": "https://www.youtube.com/embed/bh820H9MD3k", "duration": ""}, {"type": "blog", "label": "Session Notes — Data Science Tools", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_07.md"}]
+    },
+    {
+      id: "bias-variance",
+      label: "Bias and Variance",
+      domain: "ml-core",
+      level: "intermediate",
+      summary: "Understanding the bias-variance tradeoff and its impact on model performance.",
+      resources: [{"type": "video", "label": "Intro 2 Bias and Variance ", "url": "https://www.youtube.com/embed/vEKaehF3d9U", "duration": ""}, {"type": "blog", "label": "Session Notes — Types of Algorithms", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_42.md"}]
+    },
+    {
+      id: "vscode-walkthrough",
+      label: "VS Code Walkthrough",
+      domain: "tools",
+      level: "beginner",
+      summary: "Full walkthrough of Visual Studio Code features for ML development.",
+      resources: [{"type": "video", "label": "VS Code Walkthrough", "url": "https://www.youtube.com/embed/ZCn9dgRLQ_8", "duration": ""}, {"type": "blog", "label": "Session Notes — Data Science Tools", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_07.md"}]
+    },
+    {
+      id: "linear-regression-intuition",
+      label: "Linear Regression Intuition",
+      domain: "ml-core",
+      level: "beginner",
+      summary: "Building geometric intuition for how linear regression fits a line to data.",
+      resources: [{"type": "video", "label": "Linear Regression Intuition", "url": "https://www.youtube.com/embed/XnaJ04s6DTs", "duration": ""}, {"type": "video", "label": "Linear Regression from Scratch", "url": "https://www.youtube.com/embed/_yiTZQ0vR60", "duration": ""}, {"type": "blog", "label": "Session Notes — Types of Algorithms", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_42.md"}]
+    },
+    {
+      id: "knn-algorithm",
+      label: "KNN Algorithm",
+      domain: "ml-core",
+      level: "beginner",
+      summary: "K-Nearest Neighbors classification \u2014 intuition, distance metrics, and choosing K.",
+      resources: [{"type": "video", "label": "KNN from scratch", "url": "https://www.youtube.com/embed/8cHGBZ_3K-8", "duration": ""}, {"type": "blog", "label": "Session Notes — Logistic Regression", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_43.md"}]
+    },
+    {
+      id: "numpy-intro",
+      label: "NumPy Introduction",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Introduction to NumPy arrays \u2014 the foundation for numerical computing in Python.",
+      resources: [{"type": "video", "label": "DSML Libraries", "url": "https://www.youtube.com/embed/gABxNYVrLKg", "duration": ""}, {"type": "video", "label": "Numpy Part 1", "url": "https://www.youtube.com/embed/ogEfmubVJqI", "duration": ""}, {"type": "video", "label": "Numpy Tutorial", "url": "https://www.youtube.com/embed/XC0oFw84Oz8", "duration": ""}, {"type": "video", "label": "Numpy Part 1", "url": "https://www.youtube.com/embed/fWX0KvqE6AU", "duration": ""}, {"type": "blog", "label": "Session Notes — Introduction to Data Science and Machine", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_23.md"}]
+    },
+    {
+      id: "pandas-intro",
+      label: "Pandas Introduction",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Introduction to Pandas DataFrames for loading, exploring, and manipulating tabular data.",
+      resources: [{"type": "video", "label": "Pandas Tutorial", "url": "https://www.youtube.com/embed/0SPB2VhpoNY", "duration": ""}, {"type": "blog", "label": "Session Notes — Introduction to Data Science and Machine", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_23.md"}]
+    },
+    {
+      id: "data-visualization-1",
+      label: "Data Visualization Part 1",
+      domain: "tools",
+      level: "beginner",
+      summary: "Creating basic plots with Matplotlib \u2014 line, bar, scatter, and histogram charts.",
+      resources: [{"type": "video", "label": "Data Visualization with Matplotlib", "url": "https://www.youtube.com/embed/3vGtB77BNJU", "duration": ""}, {"type": "video", "label": "Data Visualization Part 2", "url": "https://www.youtube.com/embed/SsosANWiitQ", "duration": ""}, {"type": "blog", "label": "Session Notes — Data Visualization and Feature Engineeri", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_35.md"}]
+    },
+    {
+      id: "fastapi-intro",
+      label: "FastAPI Introduction",
+      domain: "mlops",
+      level: "intermediate",
+      summary: "Building REST APIs for ML models using FastAPI with automatic documentation.",
+      resources: [{"type": "video", "label": "Flask Part 1", "url": "https://www.youtube.com/embed/lG3RgrzppnI", "duration": ""}, {"type": "video", "label": "Flask Part 2", "url": "https://www.youtube.com/embed/_GNoYvanXYo", "duration": ""}, {"type": "video", "label": "Flask Part 3", "url": "https://www.youtube.com/embed/EH4u8hAjm2A", "duration": ""}, {"type": "video", "label": "Flask Part 4", "url": "https://www.youtube.com/embed/MNQkSF8h6wo", "duration": ""}, {"type": "video", "label": "Flask Part 5", "url": "https://www.youtube.com/embed/IAackuaGdzM", "duration": ""}, {"type": "video", "label": "Flask Part 6", "url": "https://www.youtube.com/embed/flOKENTLw1k", "duration": ""}, {"type": "video", "label": "Flask Part 7", "url": "https://www.youtube.com/embed/-vPwKsyC0LA", "duration": ""}, {"type": "video", "label": "Flask Part 8", "url": "https://www.youtube.com/embed/63Drf-skV3A", "duration": ""}, {"type": "blog", "label": "Session Notes — Introduction to Flask", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_52.md"}, {"type": "video", "label": "FAST API Part 1", "url": "https://www.youtube.com/embed/aAnQj2jfufk", "duration": ""}, {"type": "video", "label": "FAST API Part 2", "url": "https://www.youtube.com/embed/xpasTBQ5EXc", "duration": ""}, {"type": "video", "label": "Streamlit Part 1", "url": "https://www.youtube.com/embed/bWasfCZHo-g", "duration": ""}, {"type": "video", "label": "Streamlit Part 2", "url": "https://www.youtube.com/embed/ss6KOS7fI64", "duration": ""}, {"type": "video", "label": "Streamlit Part 3", "url": "https://www.youtube.com/embed/gOvNATdGFbo", "duration": ""}, {"type": "blog", "label": "Session Notes — Fast API and Streamlit", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_53.md"}]
+    },
+    {
+      id: "scikit-learn-intro",
+      label: "Scikit-learn Intro",
+      domain: "ml-core",
+      level: "beginner",
+      summary: "The go-to Python ML library \u2014 fit, predict, and evaluate models with a unified API.",
+      resources: [{"type": "video", "label": "Variance Equation to Code", "url": "https://www.youtube.com/embed/dQkoi2eTx8", "duration": ""}]
+    },
+    {
+      id: "data-preprocessing-pipeline",
+      label: "Data Preprocessing",
+      domain: "ml-core",
+      level: "beginner",
+      summary: "End-to-end data preprocessing pipeline \u2014 cleaning, transforming, and preparing data for ML.",
+      resources: [{"type": "video", "label": "Data Preprocessing", "url": "https://www.youtube.com/embed/SNpUkV-kuj4", "duration": ""}, {"type": "blog", "label": "Session Notes — Data Proprocessing", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_39.md"}]
+    },
+    {
+      id: "seaborn-intro",
+      label: "Seaborn Introduction",
+      domain: "tools",
+      level: "beginner",
+      summary: "Statistical data visualization with Seaborn \u2014 distributions, relationships, and categorical plots.",
+      resources: [{"type": "video", "label": "Command Line Basics Part 1", "url": "https://www.youtube.com/embed/SsosANWiitQ", "duration": ""}]
+    },
+    {
+      id: "python-os-library",
+      label: "Python OS Library",
+      domain: "tools",
+      level: "beginner",
+      summary: "Navigating file systems and managing paths with Python's os library.",
+      resources: [{"type": "video", "label": "Introduction to Kaggle", "url": "https://www.youtube.com/embed/cul52ne8iGQ", "duration": ""}]
+    },
+    {
+      id: "sql-select-where",
+      label: "SQL SELECT & WHERE",
+      domain: "tools",
+      level: "beginner",
+      summary: "Querying databases with SQL SELECT, WHERE, GROUP BY, and ORDER BY clauses.",
+      resources: [{"type": "video", "label": "Introduction to SQL for Data Scientists", "url": "https://www.youtube.com/embed/0x0dW8T-4uo", "duration": ""}, {"type": "blog", "label": "Session Notes — SQL Basics and CRUD", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_26.md"}]
+    },
+    {
+      id: "classification-regression-clustering",
+      label: "ML Problem Types",
+      domain: "ml-core",
+      level: "beginner",
+      summary: "Introduction to classification, regression, and clustering as core ML problem types.",
+      resources: [{"type": "video", "label": "Classification, Regression, Clustering", "url": "https://www.youtube.com/embed/T4Ha6U0PJ7s", "duration": ""}, {"type": "blog", "label": "Session Notes — Types of Algorithms", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_42.md"}]
+    },
+    {
+      id: "pyyaml-config",
+      label: "PyYAML Configuration",
+      domain: "tools",
+      level: "beginner",
+      summary: "Reading configuration values from YAML files using the PyYAML library in Python.",
+      resources: [{"type": "video", "label": "Python Writing Raw Text Files", "url": "https://www.youtube.com/embed/A5GoYjlDVVY", "duration": ""}]
+    },
+    {
+      id: "matplotlib-tutorial-1",
+      label: "Matplotlib Tutorial 1",
+      domain: "tools",
+      level: "beginner",
+      summary: "Comprehensive introduction to Matplotlib for creating charts and visualizations.",
+      resources: [{"type": "video", "label": "Python Matplotlib Tutorial 1", "url": "https://www.youtube.com/embed/3vGtB77BNJU", "duration": ""}]
+    },
+    {
+      id: "python-os-intro",
+      label: "Python OS Library Intro",
+      domain: "tools",
+      level: "beginner",
+      summary: "Introduction to Python's os library for file and directory management.",
+      resources: [{"type": "video", "label": "Python: Introduction to OS Library", "url": "https://www.youtube.com/embed/cul52ne8iGQ", "duration": ""}]
+    },
+    {
+      id: "image-processing-cv",
+      label: "Image Processing for CV",
+      domain: "deep-learning",
+      level: "intermediate",
+      summary: "Loading, manipulating, and preprocessing images for computer vision with OpenCV.",
+      resources: [{"type": "video", "label": "Image Processing for CV", "url": "https://www.youtube.com/embed/fWX0KvqE6AU", "duration": ""}, {"type": "blog", "label": "Session Notes — Introduction to Data Science and Machine", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_23.md"}]
+    },
+    {
+      id: "reading-json",
+      label: "Reading JSON in Python",
+      domain: "tools",
+      level: "beginner",
+      summary: "Parsing and working with JSON data structures in Python.",
+      resources: [{"type": "video", "label": "Reading JSON files in Python", "url": "https://www.youtube.com/embed/H999zBdovoI", "duration": ""}]
+    },
+    {
+      id: "data-preprocessing-full",
+      label: "Data Preprocessing Full",
+      domain: "ml-core",
+      level: "intermediate",
+      summary: "Complete data preprocessing workflow including cleaning, encoding, and scaling.",
+      resources: [{"type": "video", "label": "Data Preprocessing", "url": "https://www.youtube.com/embed/SNpUkV-kuj4", "duration": ""}]
+    },
+    {
+      id: "save-numpy-arrays",
+      label: "Save NumPy Arrays",
+      domain: "tools",
+      level: "beginner",
+      summary: "Persisting NumPy arrays to disk and loading them back for reproducible workflows.",
+      resources: [{"type": "video", "label": "Saving and Reading Numpy Arrays in Python", "url": "https://www.youtube.com/embed/F3XIOlKR85k", "duration": ""}]
+    },
+    {
+      id: "sql-joins",
+      label: "SQL JOINs",
+      domain: "tools",
+      level: "beginner",
+      summary: "Combining data from multiple tables using INNER, LEFT, RIGHT, and FULL joins in SQL.",
+      resources: [{"type": "video", "label": "SQL for Data Science Malayalam | SELECT WHERE GROUP BY explained", "url": "https://www.youtube.com/embed/_-aHSYRK80I", "duration": ""}]
+    },
+    {
+      id: "ml-algorithm-types",
+      label: "ML Algorithm Types",
+      domain: "ml-core",
+      level: "beginner",
+      summary: "Survey of common classification and regression algorithms and when to use each.",
+      resources: [{"type": "video", "label": "ML Algorithm Types", "url": "https://www.youtube.com/embed/T4Ha6U0PJ7s", "duration": ""}, {"type": "blog", "label": "Session Notes — Types of Algorithms", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_42.md"}]
+    },
+    {
+      id: "cnn-architectures-overview",
+      label: "CNN Architectures Overview",
+      domain: "deep-learning",
+      level: "advanced",
+      summary: "Comparing ResNet, VGG, Inception, and EfficientNet architectures for vision tasks.",
+      resources: [{"type": "video", "label": "Overview of CNN Architectures", "url": "https://www.youtube.com/embed/Onj6xwYEVNE", "duration": ""}, {"type": "blog", "label": "Session Notes — Deep Learning", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_56.md"}]
+    },
+    {
+      id: "word-embedding-techniques",
+      label: "Word Embedding Techniques",
+      domain: "nlp",
+      level: "intermediate",
+      summary: "Comparing Word2Vec, GloVe, and FastText embedding techniques for NLP applications.",
+      resources: [{"type": "video", "label": "Word Embedding Techniques in NLP", "url": "https://www.youtube.com/embed/KxBjea3khEs", "duration": ""}, {"type": "blog", "label": "Session Notes — Deep Learning", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_56.md"}]
+    },
+    {
+      id: "python-best-practices",
+      label: "Python Best Practices",
+      domain: "foundations",
+      level: "intermediate",
+      summary: "Writing clean, readable, and maintainable Python code following best practices.",
+      resources: [{"type": "video", "label": "Python Coding Best Practices", "url": "https://www.youtube.com/embed/TDbo1mLpjOM", "duration": ""}, {"type": "blog", "label": "Session Notes — Coding Best Practices", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_12.md"}]
+    },
+    {
+      id: "version-control",
+      label: "Version Control",
+      domain: "tools",
+      level: "beginner",
+      summary: "Git fundamentals \u2014 commits, branches, merges, and collaborating on GitHub.",
+      resources: [{"type": "video", "label": "Version Control", "url": "https://www.youtube.com/embed/gGCohy7TCfw", "duration": ""}, {"type": "blog", "label": "Session Notes — Command Line Basics", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_14.md"}]
+    },
+    {
+      id: "deep-learning-nlp-1",
+      label: "Deep Learning for NLP 1",
+      domain: "nlp",
+      level: "intermediate",
+      summary: "Applying deep learning techniques to NLP tasks using RNNs and embeddings.",
+      resources: [{"type": "video", "label": "Deep Learning for NLP", "url": "https://www.youtube.com/embed/-m6JZKNoE6E", "duration": ""}, {"type": "blog", "label": "Session Notes — Deep Learning", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_56.md"}]
+    },
+    {
+      id: "feature-engineering",
+      label: "Feature Engineering",
+      domain: "ml-core",
+      level: "intermediate",
+      summary: "Creating informative features from raw data to improve machine learning model performance.",
+      resources: [{"type": "video", "label": "Feature Engineering", "url": "https://www.youtube.com/embed/KP_05zKgj98", "duration": ""}, {"type": "blog", "label": "Session Notes — Data Visualization and Feature Engineeri", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_35.md"}]
+    },
+    {
+      id: "data-viz-part-2",
+      label: "Data Visualization Part 2",
+      domain: "tools",
+      level: "intermediate",
+      summary: "Advanced visualization techniques with Matplotlib and Seaborn for data analysis.",
+      resources: [{"type": "video", "label": "Data Visualization Part 2", "url": "https://www.youtube.com/embed/SsosANWiitQ", "duration": ""}, {"type": "blog", "label": "Session Notes — Data Visualization and Feature Engineeri", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_35.md"}]
+    },
+    {
+      id: "ml-algorithm-types-2",
+      label: "ML Algorithm Types Survey",
+      domain: "ml-core",
+      level: "beginner",
+      summary: "Types of machine learning algorithms \u2014 supervised, unsupervised, and semi-supervised.",
+      resources: [{"type": "video", "label": "Types of Machine Learning Algorithms", "url": "https://www.youtube.com/embed/zjR48Bf60zE", "duration": ""}]
+    },
+    {
+      id: "common-ml-algorithms",
+      label: "Common ML Algorithms",
+      domain: "ml-core",
+      level: "beginner",
+      summary: "Survey of the most commonly used classification and regression algorithms.",
+      resources: [{"type": "video", "label": "Common Classification and Regression Algorithms", "url": "https://www.youtube.com/embed/6VaRdVum__o", "duration": ""}]
+    },
+    {
+      id: "sklearn-apis",
+      label: "Common Scikit-learn APIs",
+      domain: "ml-core",
+      level: "beginner",
+      summary: "The most commonly used Scikit-learn classes and methods for end-to-end ML workflows.",
+      resources: [{"type": "video", "label": "Common Scikit Learn APIs", "url": "https://www.youtube.com/embed/dQkoi2eTx8", "duration": ""}]
+    },
+    {
+      id: "office-productivity",
+      label: "Office Productivity Tools",
+      domain: "tools",
+      level: "beginner",
+      summary: "Essential productivity tools for data scientists \u2014 shortcuts, apps, and workflows.",
+      resources: [{"type": "video", "label": "Office Productivity Tools", "url": "https://www.youtube.com/embed/3TolpADjH1E", "duration": ""}]
+    },
+    {
+      id: "vim-editor",
+      label: "Intro to VIM Editor",
+      domain: "tools",
+      level: "beginner",
+      summary: "Navigating and editing files in VIM \u2014 the essential terminal text editor.",
+      resources: [{"type": "video", "label": "Intro to VIM Editor", "url": "https://www.youtube.com/embed/H_g7_niAp1Y", "duration": ""}]
+    },
+    {
+      id: "pillow-library",
+      label: "Pillow Library",
+      domain: "tools",
+      level: "beginner",
+      summary: "Reading, manipulating, and saving images using Python's Pillow (PIL) library.",
+      resources: [{"type": "video", "label": "Intro to Pillow Library", "url": "https://www.youtube.com/embed/OQT38WXPCio", "duration": ""}]
+    },
+    {
+      id: "min-max-scaling",
+      label: "Min-Max Scaling",
+      domain: "ml-core",
+      level: "beginner",
+      summary: "Scaling features to a fixed range using min-max normalization for ML preprocessing.",
+      resources: [{"type": "video", "label": "Image Processing for CV", "url": "https://www.youtube.com/embed/fWX0KvqE6AU", "duration": ""}, {"type": "blog", "label": "Session Notes — Encoding, Scaling, Normalization, Corrle", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_40.md"}]
+    },
+    {
+      id: "reading-audio-files",
+      label: "Reading Audio Files",
+      domain: "tools",
+      level: "beginner",
+      summary: "Loading and inspecting audio files in Python for speech and audio ML tasks.",
+      resources: [{"type": "video", "label": "Reading Audio Files", "url": "https://www.youtube.com/embed/cAF_sl31IL8", "duration": ""}]
+    },
+    {
+      id: "gaussian-distribution",
+      label: "Gaussian Distribution",
+      domain: "foundations",
+      level: "intermediate",
+      summary: "Normal distribution visualized \u2014 properties, empirical rule, and its role in ML.",
+      resources: [{"type": "video", "label": "Gaussian Distribution", "url": "https://www.youtube.com/embed/TbS1iYIA6QI", "duration": ""}, {"type": "blog", "label": "Session Notes — Mathematics for Data Science and Machine", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_15.md"}]
+    },
+    {
+      id: "tensorflow-gpu",
+      label: "TensorFlow GPU Setup",
+      domain: "tools",
+      level: "beginner",
+      summary: "Checking and configuring GPU availability with TensorFlow for deep learning.",
+      resources: [{"type": "video", "label": "Checking GPU Avaialability with TensorFlow", "url": "https://www.youtube.com/embed/DOM6BKt2n1Y", "duration": ""}]
+    },
+    {
+      id: "covariance-matrix",
+      label: "Covariance Matrix",
+      domain: "foundations",
+      level: "intermediate",
+      summary: "Understanding covariance matrices and their role in PCA and multivariate analysis.",
+      resources: [{"type": "video", "label": "Covariance Matrix", "url": "https://www.youtube.com/embed/aaRkjeGRgHA", "duration": ""}, {"type": "blog", "label": "Session Notes — Mathematics and its Abstract Nature", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_19.md"}]
+    },
+    {
+      id: "computer-vision-primer",
+      label: "Computer Vision Primer",
+      domain: "deep-learning",
+      level: "beginner",
+      summary: "Introduction to computer vision \u2014 images, pixels, color spaces, and CV tasks.",
+      resources: [{"type": "video", "label": "Computer Vision Primer", "url": "https://www.youtube.com/embed/HbV7bQs3DKs", "duration": ""}]
+    },
+    {
+      id: "sql-joins-2",
+      label: "SQL Joins Malayalam",
+      domain: "tools",
+      level: "beginner",
+      summary: "Combining tables using SQL JOIN operations \u2014 INNER, LEFT, RIGHT, and FULL OUTER.",
+      resources: [{"type": "video", "label": "SQL Joins Malayalam", "url": "https://www.youtube.com/embed/zcI5QrMAuwQ", "duration": ""}]
+    },
+    {
+      id: "qwen-grader-demo",
+      label: "Qwen Code Grader Demo",
+      domain: "projects",
+      level: "advanced",
+      summary: "Demo of the AI assignment grader built with Qwen2.5-Coder via Ollama and Gradio.",
+      resources: [{"type": "video", "label": "Qwen Code Grader Demo", "url": "https://www.youtube.com/embed/mn-7UMb5nkE", "duration": ""}]
+    },
+    {
+      id: "colab-github-workflow",
+      label: "Colab & GitHub Workflow",
+      domain: "mlops",
+      level: "intermediate",
+      summary: "End-to-end ML development workflow combining Google Colab with GitHub version control.",
+      resources: [{"type": "video", "label": "ML Develoopment with Google Colab & GitHub", "url": "https://www.youtube.com/embed/JjQG4Oc20jo", "duration": ""}]
+    },
+    {
+      id: "pymupdf-pdf-reading",
+      label: "Reading PDFs with PyMuPDF",
+      domain: "tools",
+      level: "intermediate",
+      summary: "Extracting text and data from PDF files using the PyMuPDF library in Python.",
+      resources: [{"type": "video", "label": "Reading PDF files with PyMuPDF", "url": "https://www.youtube.com/embed/zsSce8IKfRw", "duration": ""}]
+    },
+    {
+      id: "python-library-ecosystem",
+      label: "Python Library Ecosystem",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Overview of the Python library ecosystem for data science, ML, and AI development.",
+      resources: [{"type": "video", "label": "Python Library", "url": "https://www.youtube.com/embed/TA3n-txytck", "duration": ""}, {"type": "video", "label": "DSML Library", "url": "https://www.youtube.com/embed/gABxNYVrLKg", "duration": ""}, {"type": "blog", "label": "Session Notes — Loops & Functions in Python", "url": "https://github.com/cksajil/DSAIRP25/blob/main/notes/session_10.md"}]
+    },
+    {
+      id: "map-of-mathematics",
+      label: "Map of Mathematics",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Visual overview of all major branches of mathematics and how they connect.",
+      resources: [{"type": "video", "label": "Map of Mathematics", "url": "https://www.youtube.com/embed/au3AJq922nI", "duration": ""}]
+    },
+    {
+      id: "intro-probability",
+      label: "Intro to Probability",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Foundational probability concepts \u2014 experiments, outcomes, events, and probability rules.",
+      resources: [{"type": "video", "label": "Intro to Probability", "url": "https://www.youtube.com/embed/BztRkxDb3h0", "duration": ""}]
+    },
+    {
+      id: "key-terms-probability",
+      label: "Key Probability Terms",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Essential probability vocabulary \u2014 sample space, events, union, intersection, complement.",
+      resources: [{"type": "video", "label": "Key Probability Terms", "url": "https://www.youtube.com/embed/YoIIunQArhc", "duration": ""}]
+    },
+    {
+      id: "joint-conditional-prob",
+      label: "Joint & Conditional Probability",
+      domain: "foundations",
+      level: "intermediate",
+      summary: "Joint, conditional, dependent, and independent probabilities explained with examples.",
+      resources: [{"type": "video", "label": "Joint & Conditional Probability", "url": "https://www.youtube.com/embed/q8MHbZ6ifWA", "duration": ""}]
+    },
+    {
+      id: "inferential-statistics",
+      label: "Inferential Statistics",
+      domain: "foundations",
+      level: "intermediate",
+      summary: "Why inferential statistics matters \u2014 making predictions and decisions from sample data.",
+      resources: [{"type": "video", "label": "Inferential Statistics", "url": "https://www.youtube.com/embed/qYU_mbz2qEw", "duration": ""}]
+    },
+    {
+      id: "list-comprehension",
+      label: "List Comprehension",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Writing concise and efficient list transformations using Python list comprehension.",
+      resources: [{"type": "video", "label": "List Comprehension", "url": "https://www.youtube.com/embed/tdvl8dv0tzk", "duration": ""}]
+    },
+    {
+      id: "python-files-read",
+      label: "Python File Reading",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Reading text and CSV files in Python using built-in file handling functions.",
+      resources: [{"type": "video", "label": "Python File Reading", "url": "https://www.youtube.com/embed/iFZlU-ZWuzg", "duration": ""}]
+    },
+    {
+      id: "python-files-write",
+      label: "Python File Writing",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Writing data to files in Python \u2014 creating, appending, and managing file output.",
+      resources: [{"type": "video", "label": "Python File Writing", "url": "https://www.youtube.com/embed/3cJMqHyaKGU", "duration": ""}]
+    },
+    {
+      id: "generic-python-1",
+      label: "Generic Python Techniques 1",
+      domain: "foundations",
+      level: "intermediate",
+      summary: "Useful Python tricks and patterns that every data scientist should know.",
+      resources: [{"type": "video", "label": "Generic Python Techniques 1", "url": "https://www.youtube.com/embed/6nfVFuEY25o", "duration": ""}]
+    },
+    {
+      id: "generic-python-2",
+      label: "Generic Python Techniques 2",
+      domain: "foundations",
+      level: "intermediate",
+      summary: "More Python idioms and patterns for writing efficient data science code.",
+      resources: [{"type": "video", "label": "Generic Python Techniques 2", "url": "https://www.youtube.com/embed/QeQZFj8g8Nk", "duration": ""}]
+    },
+    {
+      id: "practice-vowel-print",
+      label: "Practice: Vowel Printing",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Python practice \u2014 filtering and printing only vowels from a text string.",
+      resources: [{"type": "video", "label": "Practice: Vowel Printing", "url": "https://www.youtube.com/embed/__NgWy-yBNo", "duration": ""}]
+    },
+    {
+      id: "practice-otp",
+      label: "Practice: OTP Generator",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Python practice problem \u2014 building an OTP (one-time password) generator.",
+      resources: [{"type": "video", "label": "Practice: OTP Generator", "url": "https://www.youtube.com/embed/fc7VKrSvF_E", "duration": ""}]
+    },
+    {
+      id: "practice-string-reverse",
+      label: "Practice: String Reversing",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Python practice problem \u2014 reversing strings with different techniques.",
+      resources: [{"type": "video", "label": "Practice: String Reversing", "url": "https://www.youtube.com/embed/GSWETBkd6Ho", "duration": ""}]
+    },
+    {
+      id: "practice-pattern-print",
+      label: "Practice: Pattern Printing",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Python practice problem \u2014 printing patterns using nested loops.",
+      resources: [{"type": "video", "label": "Practice: Pattern Printing", "url": "https://www.youtube.com/embed/DY8N-xNhrsY", "duration": ""}]
+    },
+    {
+      id: "practice-progress-bar",
+      label: "Practice: Progress Bar",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Python practice problem \u2014 implementing a simple progress bar using TQDM.",
+      resources: [{"type": "video", "label": "Practice: Progress Bar", "url": "https://www.youtube.com/embed/v6r0GBcY730", "duration": ""}]
+    },
+    {
+      id: "practice-animation",
+      label: "Practice: Print Animation",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Python practice problem \u2014 creating simple terminal animations with print.",
+      resources: [{"type": "video", "label": "Practice: Print Animation", "url": "https://www.youtube.com/embed/vsaN5bgTBek", "duration": ""}]
+    },
+    {
+      id: "practice-date-format",
+      label: "Practice: Date Formatting",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Python practice problem \u2014 converting date formats using string manipulation.",
+      resources: [{"type": "video", "label": "Practice: Date Formatting", "url": "https://www.youtube.com/embed/eBLzUiQaeL8", "duration": ""}]
+    },
+    {
+      id: "practice-problem-12",
+      label: "Practice Problem 12",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Python coding practice problem to reinforce programming fundamentals.",
+      resources: [{"type": "video", "label": "Practice Problem 12", "url": "https://www.youtube.com/embed/ubsN2Hy1XSs", "duration": ""}]
+    },
+    {
+      id: "practice-if-else-in",
+      label: "Practice: If Else with In",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Python practice \u2014 using the `in` operator with if-else for membership testing.",
+      resources: [{"type": "video", "label": "Practice: If Else with In", "url": "https://www.youtube.com/embed/woMeFJEc-PE", "duration": ""}]
+    },
+    {
+      id: "practice-dot-product",
+      label: "Practice: Dot Product",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Python practice problem \u2014 computing dot product of two vectors from scratch.",
+      resources: [{"type": "video", "label": "Practice: Dot Product", "url": "https://www.youtube.com/embed/-tixNE3kOow", "duration": ""}]
+    },
+    {
+      id: "practice-string-filter",
+      label: "Practice: String Filter",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Python practice \u2014 filtering and reversing strings using list comprehension.",
+      resources: [{"type": "video", "label": "Practice: String Filter", "url": "https://www.youtube.com/embed/ju_kpGWUtXE", "duration": ""}]
+    },
+    {
+      id: "practice-split-reverse",
+      label: "Practice: Split Reverse Join",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Python practice \u2014 splitting, reversing, and joining strings.",
+      resources: [{"type": "video", "label": "Practice: Split Reverse Join", "url": "https://www.youtube.com/embed/wrJC-UX2-Ks", "duration": ""}]
+    },
+    {
+      id: "practice-list-join",
+      label: "Practice: List Joining",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Python practice \u2014 joining and appending list elements.",
+      resources: [{"type": "video", "label": "Practice: List Joining", "url": "https://www.youtube.com/embed/prAOtxVu3p0", "duration": ""}]
+    },
+    {
+      id: "practice-second-largest",
+      label: "Practice: Second Largest",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Python practice \u2014 finding the second largest element in a list.",
+      resources: [{"type": "video", "label": "Practice: Second Largest", "url": "https://www.youtube.com/embed/o_rVD3PxOrs", "duration": ""}]
+    },
+    {
+      id: "practice-elementwise-sum",
+      label: "Practice: Element-wise Sum",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Python practice \u2014 computing element-wise sum of two lists.",
+      resources: [{"type": "video", "label": "Practice: Element-wise Sum", "url": "https://www.youtube.com/embed/UFK7VXpiKKs", "duration": ""}]
+    },
+    {
+      id: "practice-mix-list",
+      label: "Practice: Mix List Elements",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Python practice \u2014 mixing and interleaving list elements.",
+      resources: [{"type": "video", "label": "Practice: Mix List Elements", "url": "https://www.youtube.com/embed/gxTnlJcUBOI", "duration": ""}]
+    },
+    {
+      id: "practice-word-uppercase",
+      label: "Practice: Word Uppercase",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Python practice \u2014 capitalizing words in a sentence.",
+      resources: [{"type": "video", "label": "Practice: Word Uppercase", "url": "https://www.youtube.com/embed/tCR2vnFL2rM", "duration": ""}]
+    },
+    {
+      id: "practice-unique-list",
+      label: "Practice: Unique List",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Python practice \u2014 extracting unique elements from a list.",
+      resources: [{"type": "video", "label": "Practice: Unique List", "url": "https://www.youtube.com/embed/BT4zynEm4Ts", "duration": ""}]
+    },
+    {
+      id: "practice-problem-14",
+      label: "Practice Problem 14",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Python coding practice to strengthen programming problem-solving skills.",
+      resources: [{"type": "video", "label": "Practice Problem 14", "url": "https://www.youtube.com/embed/xhAvwPCQEMo", "duration": ""}]
+    },
+    {
+      id: "practice-split-join-2",
+      label: "Practice: Split Join",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Python practice \u2014 using split and join for string transformation.",
+      resources: [{"type": "video", "label": "Practice: Split Join", "url": "https://www.youtube.com/embed/9j336gZt9wQ", "duration": ""}]
+    },
+    {
+      id: "practice-map-function",
+      label: "Practice: Map Function",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Python practice \u2014 applying map and lambda functions to lists.",
+      resources: [{"type": "video", "label": "Practice: Map Function", "url": "https://www.youtube.com/embed/oKFLSPMSF9M", "duration": ""}]
+    },
+    {
+      id: "practice-avg-numbers",
+      label: "Practice: Average Numbers",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Python practice \u2014 computing the average of a list of numbers.",
+      resources: [{"type": "video", "label": "Practice: Average Numbers", "url": "https://www.youtube.com/embed/B5nYGYBTHSI", "duration": ""}]
+    },
+    {
+      id: "practice-railway-time",
+      label: "Practice: Railway Time",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Python practice \u2014 converting 24-hour railway time to AM/PM format.",
+      resources: [{"type": "video", "label": "Practice: Railway Time", "url": "https://www.youtube.com/embed/vfEM7CctN8s", "duration": ""}]
+    },
+    {
+      id: "practice-median",
+      label: "Practice: Statistical Median",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Python practice \u2014 computing the statistical median from scratch.",
+      resources: [{"type": "video", "label": "Practice: Statistical Median", "url": "https://www.youtube.com/embed/Ge5MH_Wjmn8", "duration": ""}]
+    },
+    {
+      id: "practice-type-conversion",
+      label: "Practice: Type Conversion",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Python practice \u2014 using type conversion functions int, float, and str.",
+      resources: [{"type": "video", "label": "Practice: Type Conversion", "url": "https://www.youtube.com/embed/FprG4mjUo0c", "duration": ""}]
+    },
+    {
+      id: "practice-mode",
+      label: "Practice: Statistical Mode",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Python practice \u2014 computing the statistical mode from a list of numbers.",
+      resources: [{"type": "video", "label": "Practice: Statistical Mode", "url": "https://www.youtube.com/embed/Od9BpazCRVk", "duration": ""}]
+    },
+    {
+      id: "practice-variance",
+      label: "Practice: Variance",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Python practice \u2014 computing statistical variance from a list of numbers.",
+      resources: [{"type": "video", "label": "Practice: Variance", "url": "https://www.youtube.com/embed/GVcXOT_Th6U", "duration": ""}]
+    },
+    {
+      id: "practice-minmax-scaling",
+      label: "Practice: Min-Max Scaling",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Python practice \u2014 implementing min-max feature scaling from scratch.",
+      resources: [{"type": "video", "label": "Practice: Min-Max Scaling", "url": "https://www.youtube.com/embed/Kcgz1vdtkKU", "duration": ""}]
+    },
+    {
+      id: "practice-countdown",
+      label: "Practice: Reverse Countdown",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Python practice \u2014 printing a reverse countdown using loops.",
+      resources: [{"type": "video", "label": "Practice: Reverse Countdown", "url": "https://www.youtube.com/embed/Kcgz1vdtkKU", "duration": ""}]
+    },
+    {
+      id: "practice-sigmoid",
+      label: "Practice: Sigmoid Function",
+      domain: "foundations",
+      level: "intermediate",
+      summary: "Python practice \u2014 implementing the sigmoid activation function from scratch.",
+      resources: [{"type": "video", "label": "Practice: Sigmoid Function", "url": "https://www.youtube.com/embed/tf6KflwnTqI", "duration": ""}]
+    },
+    {
+      id: "practice-problem-35",
+      label: "Practice Problem 35",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Python coding practice to build programming confidence and speed.",
+      resources: [{"type": "video", "label": "Practice Problem 35", "url": "https://www.youtube.com/embed/hc4zLXYo4EI", "duration": ""}]
+    },
+    {
+      id: "vscode-extensions-1",
+      label: "VS Code Extensions 1",
+      domain: "tools",
+      level: "beginner",
+      summary: "Installing and using essential VS Code extensions for data science development.",
+      resources: [{"type": "video", "label": "VS Code Extensions Part 1", "url": "https://www.youtube.com/embed/sqJhKbsZqtA", "duration": ""}]
+    },
+    {
+      id: "vscode-extensions-2",
+      label: "VS Code Extensions 2",
+      domain: "tools",
+      level: "beginner",
+      summary: "More VS Code extensions for Python, linting, formatting and productivity.",
+      resources: [{"type": "video", "label": "VS Code Extensions Part 2", "url": "https://www.youtube.com/embed/1XgCiD5QHQU", "duration": ""}]
+    },
+    {
+      id: "vscode-extensions-3",
+      label: "VS Code Extensions 3",
+      domain: "tools",
+      level: "beginner",
+      summary: "Advanced VS Code extensions and configuration tips for ML engineers.",
+      resources: [{"type": "video", "label": "VS Code Extensions Part 3", "url": "https://www.youtube.com/embed/rxhtjmuM6E0", "duration": ""}]
+    },
+    {
+      id: "vscode-extensions-4",
+      label: "VS Code Extensions 4",
+      domain: "tools",
+      level: "beginner",
+      summary: "Final set of VS Code extensions covering data science workflow essentials.",
+      resources: [{"type": "video", "label": "VS Code Walkthrough", "url": "https://www.youtube.com/embed/ZCn9dgRLQ_8", "duration": ""}]
+    },
+    {
+      id: "practice-problem-7",
+      label: "Practice Problem 7",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Python practice problem to strengthen core programming skills.",
+      resources: [{"type": "video", "label": "Python Practice Problem 7", "url": "https://www.youtube.com/embed/rFocOiHnbEs", "duration": ""}]
+    },
+    {
+      id: "practice-problem-8",
+      label: "Practice Problem 8",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Python practice problem to reinforce data structures and logic.",
+      resources: [{"type": "video", "label": "Python Practice Problem 8", "url": "https://www.youtube.com/embed/vsaN5bgTBek", "duration": ""}]
+    },
+    {
+      id: "practice-problem-9",
+      label: "Practice Problem 9",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Python practice problem covering string and list operations.",
+      resources: [{"type": "video", "label": "Python Practice Problem 9", "url": "https://www.youtube.com/embed/DY8N-xNhrsY", "duration": ""}]
+    },
+    {
+      id: "practice-problem-10",
+      label: "Practice Problem 10",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Python practice problem building on functions and control flow.",
+      resources: [{"type": "video", "label": "Python Practice Problem 10", "url": "https://www.youtube.com/embed/v6r0GBcY730", "duration": ""}]
+    },
+    {
+      id: "practice-problem-11",
+      label: "Practice Problem 11",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Python practice problem reinforcing Python fundamentals.",
+      resources: [{"type": "video", "label": "Python Practice Problem 11", "url": "https://www.youtube.com/embed/fc7VKrSvF_E", "duration": ""}]
+    },
+    {
+      id: "linear-regression-scratch",
+      label: "Linear Regression Scratch",
+      domain: "ml-core",
+      level: "intermediate",
+      summary: "Implementing linear regression from scratch in Python without scikit-learn.",
+      resources: [{"type": "video", "label": "Linear Regression from Scratch", "url": "https://www.youtube.com/embed/_yiTZQ0vR60", "duration": ""}]
+    },
+    {
+      id: "sigmoid-function",
+      label: "Sigmoid Function",
+      domain: "deep-learning",
+      level: "beginner",
+      summary: "Understanding and implementing the sigmoid activation function in Python.",
+      resources: [{"type": "video", "label": "Sigmoid / Operator Overloading", "url": "https://www.youtube.com/embed/lal8F6H1bXc", "duration": ""}]
+    },
+    {
+      id: "row-col-vectors",
+      label: "Row & Column Vectors",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Row and column vector notation and their role in matrix operations.",
+      resources: [{"type": "video", "label": "Row and Column Vectors", "url": "https://www.youtube.com/embed/JAdl83M-e_s", "duration": ""}]
+    },
+    {
+      id: "matrix-multiplication",
+      label: "Matrix Multiplication",
+      domain: "foundations",
+      level: "intermediate",
+      summary: "What matrix multiplication actually means geometrically and computationally.",
+      resources: [{"type": "video", "label": "Matrix Transformations", "url": "https://www.youtube.com/embed/MmL-KLK-a9c", "duration": ""}]
+    },
+    {
+      id: "matrix-inverse",
+      label: "Matrix Inverse",
+      domain: "foundations",
+      level: "intermediate",
+      summary: "Computing and understanding the inverse of a matrix and when it exists.",
+      resources: [{"type": "video", "label": "Inverse of a Matrix", "url": "https://www.youtube.com/embed/BSlbJ8gwZMM", "duration": ""}]
+    },
+    {
+      id: "eigenvalues-vectors",
+      label: "Eigenvalues & Eigenvectors",
+      domain: "foundations",
+      level: "intermediate",
+      summary: "Eigenvalues and eigenvectors \u2014 the backbone of PCA and dimensionality reduction.",
+      resources: [{"type": "video", "label": "Eigen Values and Eigen Vectors", "url": "https://www.youtube.com/embed/vrEPiB5-7d8", "duration": ""}]
+    },
+    {
+      id: "visualizing-functions",
+      label: "Visualizing Functions",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Plotting and visualizing mathematical functions to build intuition for ML.",
+      resources: [{"type": "video", "label": "Visualizing Functions", "url": "https://www.youtube.com/embed/W7S4tFQxDWY", "duration": ""}]
+    },
+    {
+      id: "concept-derivative",
+      label: "Concept of Derivative",
+      domain: "foundations",
+      level: "intermediate",
+      summary: "Understanding derivatives geometrically as the slope of a function at a point.",
+      resources: [{"type": "video", "label": "Concept of Derivative", "url": "https://www.youtube.com/embed/JpQUtO09xi8", "duration": ""}]
+    },
+    {
+      id: "infinity-infinitesimal",
+      label: "Infinity & Infinitesimal",
+      domain: "foundations",
+      level: "intermediate",
+      summary: "The ideas of infinity and infinitesimals that underpin calculus for ML.",
+      resources: [{"type": "video", "label": "Idea of Infinity and Infinitesimal", "url": "https://www.youtube.com/embed/0IOfGyncK3g", "duration": ""}]
+    },
+    {
+      id: "derivative-direction",
+      label: "Derivative Direction",
+      domain: "foundations",
+      level: "intermediate",
+      summary: "How derivatives point in the direction of steepest ascent \u2014 the basis of gradient descent.",
+      resources: [{"type": "video", "label": "Direction in Derivative", "url": "https://www.youtube.com/embed/-rofr5JMOpU", "duration": ""}]
+    },
+    {
+      id: "partial-derivative",
+      label: "Partial Derivative",
+      domain: "foundations",
+      level: "intermediate",
+      summary: "Partial derivatives and gradient vectors used in multi-variable optimization.",
+      resources: [{"type": "video", "label": "Partial Derivative", "url": "https://www.youtube.com/embed/P8VbRBfEPXc", "duration": ""}]
+    },
+    {
+      id: "descriptive-recap-1",
+      label: "Descriptive Stats Recap 1",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Quick recap of key descriptive statistics concepts for data science.",
+      resources: [{"type": "video", "label": "Intro to Descriptive Statistics", "url": "https://www.youtube.com/embed/8Q4oSDfhso8", "duration": ""}]
+    },
+    {
+      id: "descriptive-recap-2",
+      label: "Descriptive Stats Recap 2",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Continued recap of descriptive statistics including variance and standard deviation.",
+      resources: [{"type": "video", "label": "Measures of Central Tendency", "url": "https://www.youtube.com/embed/Q3WDm0OV_DY", "duration": ""}]
+    },
+    {
+      id: "central-tendency",
+      label: "Measures of Central Tendency",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Mean, median, and mode \u2014 the three measures of central tendency explained visually.",
+      resources: [{"type": "video", "label": "Measures of Central Tendency", "url": "https://www.youtube.com/embed/Q3WDm0OV_DY", "duration": ""}]
+    },
+    {
+      id: "percentiles-quartiles",
+      label: "Percentiles & Quartiles",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Understanding percentiles, quartiles, and IQR for data distribution analysis.",
+      resources: [{"type": "video", "label": "Percentiles and Quartiles", "url": "https://www.youtube.com/embed/5Zb8EExsXsI", "duration": ""}]
+    },
+    {
+      id: "outlier-detection",
+      label: "Outlier Detection",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Finding outliers using quartiles and the IQR method in Python.",
+      resources: [{"type": "video", "label": "Finding Outliers Using Quartiles", "url": "https://www.youtube.com/embed/sK0QbCA81Fg", "duration": ""}]
+    },
+    {
+      id: "measures-dispersion",
+      label: "Measures of Dispersion",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Range, variance, standard deviation, and z-score for measuring data spread.",
+      resources: [{"type": "video", "label": "Measures of Dispersion", "url": "https://www.youtube.com/embed/LumyZy9-MLk", "duration": ""}]
+    },
+    {
+      id: "correlation-causation",
+      label: "Correlation vs Causation",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Why correlation does not imply causation \u2014 a critical concept for data analysis.",
+      resources: [{"type": "video", "label": "Correlation vs Causation", "url": "https://www.youtube.com/embed/gh1MV72Otm0", "duration": ""}]
+    },
+    {
+      id: "html-css-1",
+      label: "HTML & CSS Part 1",
+      domain: "tools",
+      level: "beginner",
+      summary: "Introduction to HTML structure and CSS styling for building ML web interfaces.",
+      resources: [{"type": "video", "label": "HTML & CSS Part 1", "url": "https://www.youtube.com/embed/vLOltaWPIz0", "duration": ""}]
+    },
+    {
+      id: "html-css-2",
+      label: "HTML & CSS Part 2",
+      domain: "tools",
+      level: "beginner",
+      summary: "HTML forms, tables, and CSS layouts for data science web applications.",
+      resources: [{"type": "video", "label": "HTML & CSS Part 2", "url": "https://www.youtube.com/embed/T-18Cpclsn4", "duration": ""}]
+    },
+    {
+      id: "html-css-3",
+      label: "HTML & CSS Part 3",
+      domain: "tools",
+      level: "beginner",
+      summary: "Responsive CSS design and flexbox for building ML dashboards.",
+      resources: [{"type": "video", "label": "HTML & CSS Part 3", "url": "https://www.youtube.com/embed/vuR0nGMnytE", "duration": ""}]
+    },
+    {
+      id: "html-css-4",
+      label: "HTML & CSS Part 4",
+      domain: "tools",
+      level: "beginner",
+      summary: "JavaScript integration with HTML/CSS for interactive ML web apps.",
+      resources: [{"type": "video", "label": "HTML & CSS Part 4", "url": "https://www.youtube.com/embed/xF_q_XAP4g4", "duration": ""}]
+    },
+    {
+      id: "thinking-tools-1",
+      label: "Thinking Tools 1",
+      domain: "tools",
+      level: "beginner",
+      summary: "Mental models and thinking frameworks for problem-solving in data science.",
+      resources: [{"type": "video", "label": "DS/ML Libraries Overview", "url": "https://www.youtube.com/embed/gABxNYVrLKg", "duration": ""}]
+    },
+    {
+      id: "dsml-libraries-intro",
+      label: "DSML Libraries Intro",
+      domain: "tools",
+      level: "beginner",
+      summary: "Introduction to the Python data science and ML library ecosystem.",
+      resources: [{"type": "video", "label": "Introduction to DSML Python Libraries", "url": "https://www.youtube.com/embed/gABxNYVrLKg", "duration": ""}]
+    },
+    {
+      id: "ai4bharat",
+      label: "AI 4 Bharat",
+      domain: "tools",
+      level: "beginner",
+      summary: "Overview of AI initiatives and resources for the Indian developer community.",
+      resources: [{"type": "video", "label": "AI 4 Bharat / DSML Libraries", "url": "https://www.youtube.com/embed/gABxNYVrLKg", "duration": ""}]
+    },
+    {
+      id: "flask-1",
+      label: "Flask Part 1",
+      domain: "mlops",
+      level: "intermediate",
+      summary: "Introduction to Flask web framework for deploying ML models as web apps.",
+      resources: [{"type": "video", "label": "Flask for DSML Part 1", "url": "https://www.youtube.com/embed/lG3RgrzppnI", "duration": ""}]
+    },
+    {
+      id: "model-metrics",
+      label: "Model Performance Metrics",
+      domain: "ml-core",
+      level: "beginner",
+      summary: "Accuracy, precision, recall, F1-score \u2014 evaluating ML model performance.",
+      resources: [{"type": "video", "label": "Model Performance Metrics / Feature Engineering", "url": "https://www.youtube.com/embed/KP_05zKgj98", "duration": ""}]
+    },
+    {
+      id: "flask-2",
+      label: "Flask Part 2",
+      domain: "mlops",
+      level: "intermediate",
+      summary: "Flask routing, templates, and handling POST requests for ML applications.",
+      resources: [{"type": "video", "label": "Flask for DSML Part 2", "url": "https://www.youtube.com/embed/_GNoYvanXYo", "duration": ""}]
+    },
+    {
+      id: "flask-3",
+      label: "Flask Part 3",
+      domain: "mlops",
+      level: "intermediate",
+      summary: "Flask forms and user input handling for interactive ML prediction apps.",
+      resources: [{"type": "video", "label": "Flask for DSML Part 3", "url": "https://www.youtube.com/embed/EH4u8hAjm2A", "duration": ""}]
+    },
+    {
+      id: "flask-4",
+      label: "Flask Part 4",
+      domain: "mlops",
+      level: "intermediate",
+      summary: "Flask blueprints and project structure for production ML web apps.",
+      resources: [{"type": "video", "label": "Flask for DSML Part 4", "url": "https://www.youtube.com/embed/MNQkSF8h6wo", "duration": ""}]
+    },
+    {
+      id: "flask-6",
+      label: "Flask Part 6",
+      domain: "mlops",
+      level: "intermediate",
+      summary: "Flask database integration and session management for ML applications.",
+      resources: [{"type": "video", "label": "Flask for DSML Part 6", "url": "https://www.youtube.com/embed/flOKENTLw1k", "duration": ""}]
+    },
+    {
+      id: "flask-7",
+      label: "Flask Part 7",
+      domain: "mlops",
+      level: "intermediate",
+      summary: "Deploying Flask ML applications to cloud platforms.",
+      resources: [{"type": "video", "label": "Flask for DSML Part 7", "url": "https://www.youtube.com/embed/-vPwKsyC0LA", "duration": ""}]
+    },
+    {
+      id: "flask-8",
+      label: "Flask Part 8",
+      domain: "mlops",
+      level: "intermediate",
+      summary: "Flask REST APIs and JSON responses for serving ML model predictions.",
+      resources: [{"type": "video", "label": "Flask for DSML Part 8", "url": "https://www.youtube.com/embed/63Drf-skV3A", "duration": ""}]
+    },
+    {
+      id: "streamlit-1",
+      label: "Streamlit Part 1",
+      domain: "mlops",
+      level: "intermediate",
+      summary: "Building interactive ML dashboards with Streamlit in pure Python.",
+      resources: [{"type": "video", "label": "Streamlit for DSML Part 1", "url": "https://www.youtube.com/embed/bWasfCZHo-g", "duration": ""}]
+    },
+    {
+      id: "numpy-random",
+      label: "NumPy Random Module",
+      domain: "foundations",
+      level: "beginner",
+      summary: "Key functions in NumPy's random module for data generation and ML experiments.",
+      resources: [{"type": "video", "label": "NumPy Tutorial", "url": "https://www.youtube.com/embed/XC0oFw84Oz8", "duration": ""}]
+    },
+    {
+      id: "streamlit-2",
+      label: "Streamlit Part 2",
+      domain: "mlops",
+      level: "intermediate",
+      summary: "Adding charts, widgets, and file uploads to Streamlit ML apps.",
+      resources: [{"type": "video", "label": "Streamlit for DSML Part 2", "url": "https://www.youtube.com/embed/ss6KOS7fI64", "duration": ""}]
+    },
+    {
+      id: "activation-functions-dl",
+      label: "Activation Functions DL",
+      domain: "deep-learning",
+      level: "intermediate",
+      summary: "ReLU, sigmoid, tanh, and softmax activation functions in deep learning.",
+      resources: [{"type": "video", "label": "Activation Functions / Sigmoid", "url": "https://www.youtube.com/embed/lal8F6H1bXc", "duration": ""}]
+    },
+    {
+      id: "streamlit-3",
+      label: "Streamlit Part 3",
+      domain: "mlops",
+      level: "intermediate",
+      summary: "Deploying Streamlit apps and integrating trained scikit-learn models.",
+      resources: [{"type": "video", "label": "Streamlit for DSML Part 3", "url": "https://www.youtube.com/embed/gOvNATdGFbo", "duration": ""}]
+    },
+    {
+      id: "fastapi-1",
+      label: "FastAPI Part 1",
+      domain: "mlops",
+      level: "intermediate",
+      summary: "Building your first REST API with FastAPI to serve ML model predictions.",
+      resources: [{"type": "video", "label": "FastAPI for DSML Part 1", "url": "https://www.youtube.com/embed/aAnQj2jfufk", "duration": ""}]
+    },
+    {
+      id: "why-databases",
+      label: "Why Databases?",
+      domain: "tools",
+      level: "beginner",
+      summary: "Why relational databases are better than flat files for data science workflows.",
+      resources: [{"type": "video", "label": "Pandas / Database Intro", "url": "https://www.youtube.com/embed/0SPB2VhpoNY", "duration": ""}]
+    },
+    {
+      id: "python-libraries-intro",
+      label: "Python Libraries Intro",
+      domain: "tools",
+      level: "beginner",
+      summary: "Overview of core Python libraries: NumPy, Pandas, Matplotlib, Scikit-learn.",
+      resources: [{"type": "video", "label": "Intro to Python Libraries", "url": "https://www.youtube.com/embed/gABxNYVrLKg", "duration": ""}]
+    },
+    {
+      id: "reading-text-files",
+      label: "Reading Text Files",
+      domain: "tools",
+      level: "beginner",
+      summary: "Reading raw text files in Python using built-in file I/O functions.",
+      resources: [{"type": "video", "label": "Python Writing Raw Text Files", "url": "https://www.youtube.com/embed/3cJMqHyaKGU", "duration": ""}]
+    },
+    {
+      id: "numpy-part-2",
+      label: "NumPy Part 2",
+      domain: "foundations",
+      level: "intermediate",
+      summary: "Advanced NumPy \u2014 array operations, broadcasting, linear algebra functions.",
+      resources: [{"type": "video", "label": "NumPy Part 2 / Tutorial", "url": "https://www.youtube.com/embed/XC0oFw84Oz8", "duration": ""}]
+    },
+    {
+      id: "pyyaml-reading",
+      label: "PyYAML Config Reading",
+      domain: "tools",
+      level: "beginner",
+      summary: "Reading YAML configuration files in Python using PyYAML for ML project setup.",
+      resources: [{"type": "video", "label": "Reading Configuration Values in Python Using PyYAML", "url": "https://www.youtube.com/embed/A5GoYjlDVVY", "duration": ""}]
+    },
+    {
+      id: "channel-promo",
+      label: "Channel Promo",
+      domain: "tools",
+      level: "beginner",
+      summary: "Introduction to the Machine Learning Malayalam YouTube channel.",
+      resources: [{"type": "video", "label": "Data Science Tools / Channel Promo", "url": "https://www.youtube.com/embed/_fuAooCJTpA", "duration": ""}]
+    },
+    {
+      id: "channel-intro",
+      label: "Channel Introduction",
+      domain: "tools",
+      level: "beginner",
+      summary: "Why Sajil started the Machine Learning Malayalam channel and the roadmap.",
+      resources: [{"type": "video", "label": "Introduction to the Channel", "url": "https://www.youtube.com/embed/_fuAooCJTpA", "duration": ""}]
+    }
+  ],
+
+  edges: [
+    { source: "python-numeric", target: "python-strings" },
+    { source: "python-strings", target: "python-lists" },
+    { source: "python-lists", target: "python-tuples" },
+    { source: "python-tuples", target: "python-range" },
+    { source: "python-range", target: "python-dict" },
+    { source: "python-dict", target: "python-sets" },
+    { source: "python-sets", target: "python-boolean" },
+    { source: "python-boolean", target: "python-none" },
+    { source: "python-none", target: "python-arithmetic" },
+    { source: "python-arithmetic", target: "python-operators" },
+    { source: "python-operators", target: "python-if" },
+    { source: "python-if", target: "python-if-else" },
+    { source: "python-if-else", target: "python-if-elif" },
+    { source: "python-if-elif", target: "python-for-loop" },
+    { source: "python-for-loop", target: "python-while-loop" },
+    { source: "python-while-loop", target: "break-continue" },
+    { source: "break-continue", target: "python-functions" },
+    { source: "python-functions", target: "python-input-output" },
+    { source: "python-input-output", target: "function-arguments" },
+    { source: "function-arguments", target: "default-arguments" },
+    { source: "default-arguments", target: "operator-overloading" },
+    { source: "operator-overloading", target: "intro-oops" },
+    { source: "intro-oops", target: "python-objects" },
+    { source: "python-objects", target: "class-inheritance" },
+    { source: "python-lists", target: "split-join" },
+    { source: "python-lists", target: "print-formatting" },
+    { source: "python-lists", target: "multivariable-assign" },
+    { source: "python-strings", target: "split-join" },
+    { source: "python-strings", target: "print-formatting" },
+    { source: "python-strings", target: "multivariable-assign" },
+    { source: "math-for-dsml", target: "why-functions" },
+    { source: "why-functions", target: "basics-notation" },
+    { source: "basics-notation", target: "abstract-math" },
+    { source: "two-areas-statistics", target: "descriptive-stats" },
+    { source: "gaussian-distribution", target: "covariance-matrix" },
+    { source: "covariance-matrix", target: "vectors-intro" },
+    { source: "vectors-intro", target: "vector-as-force" },
+    { source: "vector-as-force", target: "basis-vectors" },
+    { source: "basis-vectors", target: "vector-magnitude" },
+    { source: "vector-magnitude", target: "unit-vector" },
+    { source: "unit-vector", target: "dot-product" },
+    { source: "dot-product", target: "orthogonality" },
+    { source: "orthogonality", target: "cosine-similarity" },
+    { source: "cosine-similarity", target: "vector-projection" },
+    { source: "python-functions", target: "python-best-practices" },
+    { source: "ds-installation", target: "vscode-intro" },
+    { source: "vscode-intro", target: "vscode-walkthrough" },
+    { source: "ds-installation", target: "colab-tutorial-1" },
+    { source: "colab-tutorial-1", target: "colab-tutorial-2" },
+    { source: "intro-git-bash", target: "version-control" },
+    { source: "version-control", target: "github-profile" },
+    { source: "markdown-format", target: "intro-git-bash" },
+    { source: "python-os-intro", target: "python-os-library" },
+    { source: "reading-audio-files", target: "computer-vision-primer" },
+    { source: "tensorflow-gpu", target: "cnn-architectures-overview" },
+    { source: "python-numeric", target: "numpy-intro" },
+    { source: "data-visualization-1", target: "data-viz-part-2" },
+    { source: "data-visualization-1", target: "matplotlib-tutorial-1" },
+    { source: "data-viz-part-2", target: "seaborn-intro" },
+    { source: "seaborn-intro", target: "correlation-heatmap" },
+    { source: "sql-select-where", target: "sql-joins" },
+    { source: "sql-joins", target: "sql-joins-2" },
+    { source: "pillow-library", target: "reading-audio-files" },
+    { source: "data-preprocessing-pipeline", target: "data-preprocessing-full" },
+    { source: "data-preprocessing-full", target: "min-max-scaling" },
+    { source: "min-max-scaling", target: "feature-engineering" },
+    { source: "gaussian-distribution", target: "linear-regression-intuition" },
+    { source: "dot-product", target: "linear-regression-intuition" },
+    { source: "linear-regression-intuition", target: "bias-variance" },
+    { source: "classification-regression-clustering", target: "ml-algorithm-types" },
+    { source: "ml-algorithm-types", target: "common-ml-algorithms" },
+    { source: "common-ml-algorithms", target: "sklearn-apis" },
+    { source: "computer-vision-primer", target: "image-processing-cv" },
+    { source: "python-functions", target: "fastapi-intro" },
+    { source: "colab-tutorial-2", target: "colab-github-workflow" },
+    { source: "version-control", target: "colab-github-workflow" },
+    { source: "pymupdf-pdf-reading", target: "qwen-grader-demo" },
+    { source: "python-numeric", target: "pandas-intro" },
+    { source: "map-of-mathematics", target: "intro-probability" },
+    { source: "intro-probability", target: "key-terms-probability" },
+    { source: "key-terms-probability", target: "joint-conditional-prob" },
+    { source: "joint-conditional-prob", target: "inferential-statistics" },
+    { source: "inferential-statistics", target: "gaussian-distribution" },
+    { source: "python-functions", target: "list-comprehension" },
+    { source: "python-lists", target: "list-comprehension" },
+    { source: "map-of-mathematics", target: "descriptive-stats" },
+    { source: "math-for-dsml", target: "map-of-mathematics" },
+    { source: "python-functions", target: "python-files-read" },
+    { source: "python-files-read", target: "python-files-write" },
+    { source: "python-functions", target: "generic-python-1" },
+    { source: "generic-python-1", target: "generic-python-2" },
+    { source: "python-strings", target: "practice-vowel-print" },
+    { source: "python-functions", target: "practice-otp" },
+    { source: "python-functions", target: "practice-string-reverse" },
+    { source: "python-functions", target: "practice-pattern-print" },
+    { source: "python-functions", target: "practice-progress-bar" },
+    { source: "python-functions", target: "practice-date-format" },
+    { source: "python-functions", target: "practice-animation" },
+    { source: "python-functions", target: "practice-problem-12" },
+    { source: "python-functions", target: "practice-if-else-in" },
+    { source: "python-functions", target: "practice-problem-14" },
+    { source: "python-functions", target: "practice-split-join-2" },
+    { source: "python-functions", target: "practice-railway-time" },
+    { source: "python-functions", target: "practice-type-conversion" },
+    { source: "python-functions", target: "practice-dot-product" },
+    { source: "python-functions", target: "practice-string-filter" },
+    { source: "python-functions", target: "practice-split-reverse" },
+    { source: "python-functions", target: "practice-list-join" },
+    { source: "python-functions", target: "practice-second-largest" },
+    { source: "python-functions", target: "practice-elementwise-sum" },
+    { source: "python-functions", target: "practice-mix-list" },
+    { source: "python-functions", target: "practice-word-uppercase" },
+    { source: "python-functions", target: "practice-unique-list" },
+    { source: "python-functions", target: "practice-map-function" },
+    { source: "python-functions", target: "practice-avg-numbers" },
+    { source: "python-functions", target: "practice-median" },
+    { source: "python-functions", target: "practice-mode" },
+    { source: "python-functions", target: "practice-variance" },
+    { source: "python-functions", target: "practice-minmax-scaling" },
+    { source: "python-functions", target: "practice-countdown" },
+    { source: "python-functions", target: "practice-sigmoid" },
+    { source: "python-functions", target: "practice-problem-35" },
+    { source: "vscode-intro", target: "vscode-extensions-1" },
+    { source: "vscode-extensions-1", target: "vscode-extensions-2" },
+    { source: "vscode-extensions-2", target: "vscode-extensions-3" },
+    { source: "vscode-extensions-3", target: "vscode-extensions-4" },
+    { source: "descriptive-stats", target: "descriptive-recap-1" },
+    { source: "descriptive-recap-1", target: "descriptive-recap-2" },
+    { source: "descriptive-recap-2", target: "central-tendency" },
+    { source: "central-tendency", target: "percentiles-quartiles" },
+    { source: "percentiles-quartiles", target: "outlier-detection" },
+    { source: "descriptive-stats", target: "measures-dispersion" },
+    { source: "descriptive-stats", target: "correlation-causation" },
+    { source: "row-col-vectors", target: "matrix-multiplication" },
+    { source: "matrix-multiplication", target: "matrix-inverse" },
+    { source: "matrix-inverse", target: "eigenvalues-vectors" },
+    { source: "why-functions", target: "visualizing-functions" },
+    { source: "visualizing-functions", target: "concept-derivative" },
+    { source: "concept-derivative", target: "infinity-infinitesimal" },
+    { source: "concept-derivative", target: "derivative-direction" },
+    { source: "derivative-direction", target: "partial-derivative" },
+    { source: "python-functions", target: "practice-problem-7" },
+    { source: "python-functions", target: "practice-problem-8" },
+    { source: "python-functions", target: "practice-problem-9" },
+    { source: "python-functions", target: "practice-problem-10" },
+    { source: "python-functions", target: "practice-problem-11" },
+    { source: "python-functions", target: "flask-1" },
+    { source: "flask-1", target: "flask-2" },
+    { source: "flask-2", target: "flask-3" },
+    { source: "flask-3", target: "flask-4" },
+    { source: "flask-4", target: "flask-6" },
+    { source: "flask-6", target: "flask-7" },
+    { source: "flask-7", target: "flask-8" },
+    { source: "flask-1", target: "fastapi-1" },
+    { source: "fastapi-1", target: "streamlit-1" },
+    { source: "streamlit-1", target: "streamlit-2" },
+    { source: "streamlit-2", target: "streamlit-3" },
+    { source: "html-css-1", target: "html-css-2" },
+    { source: "html-css-2", target: "html-css-3" },
+    { source: "html-css-3", target: "html-css-4" },
+    { source: "html-css-4", target: "flask-1" },
+    { source: "numpy-intro", target: "numpy-part-2" },
+    { source: "numpy-intro", target: "numpy-random" },
+    { source: "ds-installation", target: "python-libraries-intro" },
+    { source: "python-libraries-intro", target: "dsml-libraries-intro" },
+    { source: "pandas-intro", target: "why-databases" },
+    { source: "python-files-read", target: "reading-text-files" },
+    { source: "linear-regression-intuition", target: "linear-regression-scratch" },
+    { source: "sigmoid-function", target: "activation-functions-dl" }
+  ]
+
+};
+
+</script>
 
 <!-- ─── APP LOGIC ─────────────────────────────────────────── -->
 <script>
@@ -511,6 +2433,32 @@ let activeFilters = new Set();
 let searchQuery = '';
 let simulation, svg, zoomBehavior, linkSel, nodeSel, labelSel;
 
+// ── About Panel ───────────────────────────────────────────────
+function toggleAbout() {
+  const panel = document.getElementById('about-panel');
+  panel.classList.toggle('open');
+  // Populate links from meta once
+  const linksEl = document.getElementById('about-links');
+  if (!linksEl._built) {
+    const m = GRAPH_DATA.meta;
+    const defs = [
+      { url: m.linkedinUrl,  label: 'LinkedIn',  icon: 'in', cls: 'linkedin' },
+      { url: m.channelUrl,   label: 'YouTube',   icon: '▶', cls: '' },
+      { url: m.githubUrl,    label: 'GitHub',    icon: '⌥', cls: '' },
+      { url: m.websiteUrl,   label: 'Blog',      icon: '↗', cls: '' },
+    ];
+    defs.forEach(d => {
+      if (!d.url) return;
+      const a = document.createElement('a');
+      a.className = `about-link ${d.cls}`;
+      a.href = d.url; a.target = '_blank'; a.rel = 'noopener';
+      a.innerHTML = `<span>${d.icon}</span>${d.label}`;
+      linksEl.appendChild(a);
+    });
+    linksEl._built = true;
+  }
+}
+
 // ── Bootstrap ─────────────────────────────────────────────────
 window.addEventListener('DOMContentLoaded', () => {
   applyMeta();
@@ -527,9 +2475,11 @@ function applyMeta() {
   document.getElementById('header-title').textContent = m.title;
   document.getElementById('header-sub').textContent = m.subtitle;
   const links = document.getElementById('header-links');
-  if (m.channelUrl) links.innerHTML += `<a class="header-link" href="${m.channelUrl}" target="_blank">▶ YouTube</a>`;
-  if (m.githubUrl)  links.innerHTML += `<a class="header-link" href="${m.githubUrl}"  target="_blank">⌥ GitHub</a>`;
-  if (m.websiteUrl) links.innerHTML += `<a class="header-link" href="${m.websiteUrl}" target="_blank">↗ Blog</a>`;
+  if (m.channelUrl)  links.innerHTML += `<a class="header-link" href="${m.channelUrl}" target="_blank">▶ YouTube</a>`;
+  if (m.githubUrl)   links.innerHTML += `<a class="header-link" href="${m.githubUrl}"  target="_blank">⌥ GitHub</a>`;
+  if (m.websiteUrl)  links.innerHTML += `<a class="header-link" href="${m.websiteUrl}" target="_blank">↗ Blog</a>`;
+  if (m.linkedinUrl) links.innerHTML += `<a class="header-link" href="${m.linkedinUrl}" target="_blank" style="border-color:#0a66c2;color:#0a66c2;">in LinkedIn</a>`;
+  links.innerHTML += `<button class="header-link" onclick="toggleAbout()" id="about-btn" style="cursor:pointer;background:none;">👤 About</button>`;
 }
 
 function buildLegend() {
@@ -625,7 +2575,7 @@ function buildGraph() {
     degreeMap[l.source] = (degreeMap[l.source] || 0) + 1;
     degreeMap[l.target] = (degreeMap[l.target] || 0) + 1;
   });
-  const rScale = d3.scaleSqrt().domain([0, d3.max(Object.values(degreeMap))]).range([12, 28]);
+  const rScale = d3.scaleSqrt().domain([0, d3.max(Object.values(degreeMap))]).range([8, 48]);
   data.nodes.forEach(n => { n._r = rScale(degreeMap[n.id]); });
 
   // ── Simulation ──
@@ -634,9 +2584,9 @@ function buildGraph() {
       const avgR = (d.source._r + d.target._r) / 2;
       return avgR * 4.5 + 30;
     }).strength(0.4))
-    .force('charge', d3.forceManyBody().strength(-380))
+    .force('charge', d3.forceManyBody().strength(d => -200 - d._r * 18))
     .force('center', d3.forceCenter(W / 2, H / 2))
-    .force('collide', d3.forceCollide(d => d._r + 18))
+    .force('collide', d3.forceCollide(d => d._r + 22))
     .force('x', d3.forceX(W / 2).strength(0.03))
     .force('y', d3.forceY(H / 2).strength(0.05));
 
@@ -677,20 +2627,29 @@ function buildGraph() {
     .attr('fill', 'none')
     .attr('stroke-opacity', 0.5);
 
+  // Opacity and glow scale with degree
+  const opacityScale = d3.scaleSqrt().domain([0, d3.max(Object.values(degreeMap))]).range([0.08, 0.35]);
+  const glowScale    = d3.scaleSqrt().domain([0, d3.max(Object.values(degreeMap))]).range([3, 10]);
+  const labelScale   = d3.scaleSqrt().domain([0, d3.max(Object.values(degreeMap))]).range([9, 14]);
+
   // Main circle
   nodeSel.append('circle')
     .attr('class', 'node-circle')
     .attr('r', d => d._r)
     .attr('fill', d => DOMAIN_COLORS[d.domain] || '#888')
-    .attr('fill-opacity', 0.18)
+    .attr('fill-opacity', d => opacityScale(degreeMap[d.id] || 0))
     .attr('stroke', d => DOMAIN_COLORS[d.domain] || '#888')
-    .attr('stroke-opacity', 0.9)
-    .attr('filter', 'url(#glow)');
+    .attr('stroke-opacity', d => 0.6 + 0.4 * (degreeMap[d.id] || 0) / d3.max(Object.values(degreeMap)))
+    .attr('stroke-width', d => 1 + (degreeMap[d.id] || 0) / d3.max(Object.values(degreeMap)) * 2)
+    .attr('filter', d => degreeMap[d.id] > 2 ? 'url(#glow)' : null);
 
-  // Label
+  // Label — bigger and brighter for high-degree nodes
   labelSel = nodeSel.append('text')
     .attr('class', 'node-label')
     .attr('dy', d => d._r + 14)
+    .style('font-size', d => `${labelScale(degreeMap[d.id] || 0)}px`)
+    .style('font-weight', d => degreeMap[d.id] >= 5 ? '600' : '400')
+    .style('fill', d => degreeMap[d.id] >= 5 ? 'var(--text)' : 'var(--text2)')
     .text(d => d.label);
 
   // Level indicator dot
@@ -840,27 +2799,38 @@ function renderPanel(d, neighborIds) {
       const typeIcon = { video: '▶', notebook: '⌥', blog: '↗', course: '◉' }[r.type] || '•';
       const typeColor = { video: '#f87171', notebook: '#60a5fa', blog: '#34d399', course: '#a78bfa' }[r.type] || '#888';
 
-      if (r.type === 'video' && r.url && r.url.includes('embed')) {
-        // Embeddable video
-        const embedDiv = document.createElement('div');
-        embedDiv.className = 'video-embed';
-        embedDiv.innerHTML = `<iframe src="${r.url}" title="${r.label}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; picture-in-picture" allowfullscreen loading="lazy"></iframe>`;
-        card.innerHTML = `<div class="resource-type" style="color:${typeColor}">${typeIcon} Video</div>
-          <div class="resource-label">${r.label}</div>`;
-        card.style.cursor = 'default';
-        body.appendChild(card);
-        body.appendChild(embedDiv);
-        return;
-      }
-
       if (r.type === 'video') {
-        // Link-only video (not embeddable)
+        // Extract video ID from embed or watch URL
+        let videoId = null;
+        const embedMatch = r.url && r.url.match(/embed\/([A-Za-z0-9_-]{11})/);
+        const watchMatch = r.url && r.url.match(/(?:v=|youtu\.be\/)([A-Za-z0-9_-]{11})/);
+        if (embedMatch) videoId = embedMatch[1];
+        else if (watchMatch) videoId = watchMatch[1];
+
+        const watchUrl = videoId
+          ? `https://www.youtube.com/watch?v=${videoId}`
+          : (r.url || 'https://www.youtube.com/@sajil36');
+        const thumbUrl = videoId
+          ? `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`
+          : null;
+
         card.innerHTML = `
-          <a href="${r.url}" target="_blank" rel="noopener">
-            <div class="resource-type" style="color:${typeColor}">${typeIcon} Video</div>
-            <div class="resource-label">${r.label}</div>
-            ${r.duration ? `<div class="resource-meta">Duration: ${r.duration}</div>` : ''}
+          <a href="${watchUrl}" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;display:block;">
+            <div class="resource-type" style="color:${typeColor};margin-bottom:8px;">${typeIcon} Video${r.duration ? ' · ' + r.duration : ''}</div>
+            ${thumbUrl ? `
+            <div style="position:relative;width:100%;aspect-ratio:16/9;border-radius:8px;overflow:hidden;background:#000;margin-bottom:8px;">
+              <img src="${thumbUrl}" alt="${r.label}" style="width:100%;height:100%;object-fit:cover;display:block;" loading="lazy"
+                onerror="this.parentElement.style.display='none'">
+              <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+                <div style="width:48px;height:48px;background:rgba(255,0,0,0.85);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(0,0,0,0.5);">
+                  <div style="width:0;height:0;border-top:10px solid transparent;border-bottom:10px solid transparent;border-left:18px solid white;margin-left:4px;"></div>
+                </div>
+              </div>
+            </div>` : ''}
+            <div class="resource-label" style="font-size:12px;line-height:1.4;">${r.label}</div>
           </a>`;
+        body.appendChild(card);
+        return;
       } else {
         card.innerHTML = `
           <a href="${r.url}" target="_blank" rel="noopener">
