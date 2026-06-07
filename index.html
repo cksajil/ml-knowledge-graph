@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ML Knowledge Graph</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<style>
+  /* ─── TOKENS ─────────────────────────────────────────────── */
+  :root {
+    --bg:          #080c14;
+    --bg2:         #0d1420;
+    --bg3:         #111827;
+    --surface:     #141d2e;
+    --surface2:    #1a2540;
+    --border:      #1f2e4a;
+    --border2:     #243356;
+    --text:        #e2eaf8;
+    --text2:       #8ba3cc;
+    --text3:       #4f6a99;
+    --accent:      #38bdf8;
+    --accent2:     #0ea5e9;
+
+    /* domain colors */
+    --c-foundations:   #34d399;
+    --c-ml-core:       #60a5fa;
+    --c-deep-learning: #a78bfa;
+    --c-nlp:           #f472b6;
+    --c-mlops:         #fb923c;
+    --c-tools:         #facc15;
+    --c-projects:      #f87171;
+
+    --panel-w: 420px;
+    --header-h: 56px;
+    --font-ui: 'DM Sans', system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+  }
+
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;700&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--font-ui);
+    background: var(--bg);
+    color: var(--text);
+    height: 100vh;
+    overflow: hidden;
+    user-select: none;
+  }
+
+  /* ─── HEADER ─────────────────────────────────────────────── */
+  header {
+    position: fixed; top: 0; left: 0; right: 0;
+    height: var(--header-h);
+    background: rgba(8,12,20,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 20px;
+    z-index: 100;
+  }
+  .header-left { display: flex; align-items: center; gap: 12px; }
+  .logo-dot {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg, var(--c-foundations), var(--c-ml-core), var(--c-deep-learning), var(--c-nlp), var(--c-mlops), var(--c-foundations));
+    animation: spin 8s linear infinite;
+    flex-shrink: 0;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .header-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 15px; font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.3px;
+  }
+  .header-sub { font-size: 11px; color: var(--text3); margin-top: 1px; }
+  .header-links { display: flex; gap: 8px; }
+  .header-link {
+    font-size: 11px; padding: 5px 10px;
+    border-radius: 6px; border: 1px solid var(--border2);
+    color: var(--text2); text-decoration: none;
+    transition: all 0.2s;
+  }
+  .header-link:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ─── LEGEND ─────────────────────────────────────────────── */
+  .legend {
+    position: fixed; bottom: 20px; left: 20px;
+    background: rgba(13,20,32,0.9);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 14px;
+    z-index: 50;
+    backdrop-filter: blur(12px);
+  }
+  .legend-title { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text3); margin-bottom: 8px; }
+  .legend-item { display: flex; align-items: center; gap: 8px; font-size: 11px; color: var(--text2); margin-bottom: 5px; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+  /* ─── CONTROLS ───────────────────────────────────────────── */
+  .controls {
+    position: fixed; bottom: 20px; right: 20px;
+    display: flex; flex-direction: column; gap: 6px;
+    z-index: 50;
+  }
+  .ctrl-btn {
+    width: 36px; height: 36px;
+    border: 1px solid var(--border2);
+    border-radius: 8px;
+    background: rgba(13,20,32,0.9);
+    backdrop-filter: blur(12px);
+    color: var(--text2); font-size: 16px;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+  }
+  .ctrl-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ─── SEARCH ─────────────────────────────────────────────── */
+  .search-bar {
+    position: fixed; top: calc(var(--header-h) + 14px); left: 50%; transform: translateX(-50%);
+    z-index: 50;
+    display: flex; align-items: center; gap: 0;
+    background: rgba(13,20,32,0.95);
+    border: 1px solid var(--border2);
+    border-radius: 24px;
+    padding: 0 14px;
+    backdrop-filter: blur(16px);
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .search-bar:focus-within {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(56,189,248,0.12);
+  }
+  .search-icon { color: var(--text3); font-size: 13px; margin-right: 8px; }
+  .search-input {
+    background: transparent; border: none; outline: none;
+    font-family: var(--font-ui); font-size: 13px; color: var(--text);
+    width: 220px; padding: 9px 0;
+  }
+  .search-input::placeholder { color: var(--text3); }
+  .search-count { font-size: 11px; color: var(--text3); white-space: nowrap; }
+
+  /* ─── GRAPH CANVAS ───────────────────────────────────────── */
+  #graph-container {
+    position: fixed;
+    top: var(--header-h); left: 0; right: 0; bottom: 0;
+  }
+  svg { width: 100%; height: 100%; }
+
+  .link {
+    stroke: var(--border2);
+    stroke-width: 1.2;
+    stroke-opacity: 0.5;
+    transition: stroke-opacity 0.3s;
+  }
+  .link.highlighted { stroke: var(--accent); stroke-opacity: 0.8; stroke-width: 2; }
+  .link.dimmed { stroke-opacity: 0.1; }
+
+  .node-g { cursor: pointer; }
+  .node-g:hover .node-ring { opacity: 1 !important; r: attr(r); }
+
+  .node-ring {
+    fill: none;
+    stroke-width: 2;
+    opacity: 0;
+    transition: opacity 0.2s, r 0.2s;
+  }
+  .node-circle {
+    stroke-width: 1.5;
+    transition: r 0.2s, filter 0.2s;
+  }
+  .node-circle.dimmed { opacity: 0.2; }
+  .node-circle.selected { stroke-width: 3; }
+
+  .node-label {
+    font-family: var(--font-ui);
+    font-size: 10px;
+    font-weight: 500;
+    fill: var(--text2);
+    pointer-events: none;
+    text-anchor: middle;
+    dominant-baseline: central;
+    transition: fill 0.2s, opacity 0.2s;
+  }
+  .node-label.dimmed { opacity: 0.2; }
+  .node-label.selected, .node-label.nearby { fill: var(--text); }
+
+  .level-badge {
+    font-family: var(--font-ui);
+    font-size: 8px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    pointer-events: none;
+    text-anchor: middle;
+  }
+
+  /* ─── SIDE PANEL ─────────────────────────────────────────── */
+  #panel {
+    position: fixed;
+    top: var(--header-h); right: 0; bottom: 0;
+    width: var(--panel-w);
+    background: var(--surface);
+    border-left: 1px solid var(--border);
+    transform: translateX(100%);
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 200;
+    display: flex; flex-direction: column;
+    overflow: hidden;
+  }
+  #panel.open { transform: translateX(0); }
+
+  .panel-header {
+    padding: 20px 20px 16px;
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+  .panel-close {
+    position: absolute; top: 16px; right: 16px;
+    width: 28px; height: 28px;
+    border: 1px solid var(--border2);
+    border-radius: 6px;
+    background: var(--surface2);
+    color: var(--text2);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    transition: all 0.2s;
+  }
+  .panel-close:hover { border-color: var(--accent); color: var(--accent); }
+
+  .panel-domain-badge {
+    display: inline-block;
+    font-size: 10px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 1px;
+    padding: 3px 8px; border-radius: 4px;
+    margin-bottom: 10px;
+    border: 1px solid currentColor;
+    opacity: 0.85;
+  }
+  .panel-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 22px; font-weight: 700;
+    color: var(--text);
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+  .panel-level {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: 11px; color: var(--text3);
+    margin-bottom: 10px;
+  }
+  .level-pip { width: 6px; height: 6px; border-radius: 50%; }
+  .panel-summary {
+    font-size: 13px; line-height: 1.6; color: var(--text2);
+  }
+
+  .panel-body {
+    flex: 1; overflow-y: auto; padding: 16px 20px 20px;
+  }
+  .panel-body::-webkit-scrollbar { width: 4px; }
+  .panel-body::-webkit-scrollbar-track { background: transparent; }
+  .panel-body::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+
+  .section-title {
+    font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px;
+    color: var(--text3); font-weight: 600;
+    margin: 16px 0 10px;
+  }
+  .section-title:first-child { margin-top: 0; }
+
+  /* Resource cards */
+  .resource-card {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin-bottom: 8px;
+    transition: border-color 0.2s, background 0.2s;
+    cursor: pointer;
+  }
+  .resource-card:hover { border-color: var(--border2); background: var(--surface2); }
+  .resource-card a { text-decoration: none; color: inherit; display: block; }
+
+  .resource-type {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;
+    margin-bottom: 5px;
+  }
+  .resource-label {
+    font-size: 13px; color: var(--text); font-weight: 500; line-height: 1.3;
+  }
+  .resource-meta { font-size: 11px; color: var(--text3); margin-top: 3px; }
+
+  /* Inline notes */
+  .notes-card {
+    background: rgba(56,189,248,0.04);
+    border: 1px solid rgba(56,189,248,0.15);
+    border-left: 3px solid var(--accent);
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin-bottom: 8px;
+    font-size: 12.5px; line-height: 1.6; color: var(--text2);
+  }
+
+  /* Video embed */
+  .video-embed {
+    width: 100%; aspect-ratio: 16/9;
+    border-radius: 10px; border: 1px solid var(--border);
+    background: #000;
+    margin-bottom: 8px;
+    overflow: hidden;
+  }
+  .video-embed iframe { width: 100%; height: 100%; border: none; }
+  .video-thumb {
+    width: 100%; aspect-ratio: 16/9;
+    border-radius: 10px; border: 1px solid var(--border);
+    background: var(--bg3);
+    margin-bottom: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .video-play-btn {
+    width: 52px; height: 52px;
+    background: rgba(56,189,248,0.9);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    position: absolute;
+    transition: transform 0.2s, background 0.2s;
+  }
+  .video-thumb:hover .video-play-btn { transform: scale(1.1); background: var(--accent); }
+  .play-triangle {
+    width: 0; height: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-left: 18px solid white;
+    margin-left: 4px;
+  }
+  .video-yt-label {
+    position: absolute; bottom: 10px; left: 12px;
+    font-size: 11px; color: rgba(255,255,255,0.8);
+    background: rgba(0,0,0,0.6); border-radius: 4px; padding: 2px 6px;
+  }
+
+  /* Connected nodes */
+  .connections {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    margin-top: 8px;
+  }
+  .conn-chip {
+    font-size: 11px; padding: 4px 10px; border-radius: 20px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--text2);
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex; align-items: center; gap: 5px;
+  }
+  .conn-chip:hover { border-color: var(--accent); color: var(--accent); }
+  .conn-dir { font-size: 9px; opacity: 0.6; }
+
+  /* ─── TOOLTIPS ───────────────────────────────────────────── */
+  .tooltip {
+    position: fixed;
+    background: rgba(13,20,32,0.97);
+    border: 1px solid var(--border2);
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 12px; color: var(--text);
+    pointer-events: none;
+    z-index: 300;
+    opacity: 0;
+    transition: opacity 0.15s;
+    max-width: 220px;
+  }
+  .tooltip.visible { opacity: 1; }
+  .tooltip-title { font-weight: 600; margin-bottom: 2px; }
+  .tooltip-domain { font-size: 10px; color: var(--text3); }
+
+  /* ─── FILTER BAR ─────────────────────────────────────────── */
+  .filter-bar {
+    position: fixed;
+    top: calc(var(--header-h) + 14px); left: 20px;
+    display: flex; gap: 6px; flex-wrap: wrap;
+    z-index: 50;
+    max-width: 260px;
+  }
+  .filter-chip {
+    font-size: 10px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.8px;
+    padding: 5px 10px; border-radius: 20px;
+    border: 1px solid var(--border2);
+    color: var(--text3);
+    background: rgba(13,20,32,0.8);
+    cursor: pointer;
+    transition: all 0.2s;
+    backdrop-filter: blur(8px);
+    display: flex; align-items: center; gap: 5px;
+  }
+  .filter-chip .chip-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+  .filter-chip.active { color: var(--text); border-color: currentColor; background: rgba(13,20,32,0.95); }
+  .filter-chip.inactive { opacity: 0.4; }
+
+  /* ─── ONBOARDING HINT ────────────────────────────────────── */
+  .hint {
+    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+    font-size: 12px; color: var(--text3);
+    background: rgba(13,20,32,0.9);
+    border: 1px solid var(--border);
+    border-radius: 8px; padding: 8px 16px;
+    z-index: 50;
+    backdrop-filter: blur(12px);
+    transition: opacity 0.5s;
+    pointer-events: none;
+  }
+
+</style>
+</head>
+<body>
+
+<!-- ─── HEADER ──────────────────────────────────────────────── -->
+<header>
+  <div class="header-left">
+    <div class="logo-dot"></div>
+    <div>
+      <div class="header-title" id="header-title">ML & AI Knowledge Graph</div>
+      <div class="header-sub" id="header-sub"></div>
+    </div>
+  </div>
+  <div class="header-links" id="header-links"></div>
+</header>
+
+<!-- ─── SEARCH ─────────────────────────────────────────────── -->
+<div class="search-bar">
+  <span class="search-icon">⌕</span>
+  <input class="search-input" id="search" type="text" placeholder="Search concepts…">
+  <span class="search-count" id="search-count"></span>
+</div>
+
+<!-- ─── FILTER CHIPS ───────────────────────────────────────── -->
+<div class="filter-bar" id="filter-bar"></div>
+
+<!-- ─── GRAPH ───────────────────────────────────────────────── -->
+<div id="graph-container">
+  <svg id="graph"></svg>
+</div>
+
+<!-- ─── SIDE PANEL ─────────────────────────────────────────── -->
+<div id="panel">
+  <div class="panel-header" id="panel-header">
+    <button class="panel-close" onclick="closePanel()">✕</button>
+    <div class="panel-domain-badge" id="panel-domain"></div>
+    <div class="panel-title" id="panel-title"></div>
+    <div class="panel-level" id="panel-level"></div>
+    <div class="panel-summary" id="panel-summary"></div>
+  </div>
+  <div class="panel-body" id="panel-body"></div>
+</div>
+
+<!-- ─── LEGEND ─────────────────────────────────────────────── -->
+<div class="legend" id="legend"></div>
+
+<!-- ─── CONTROLS ───────────────────────────────────────────── -->
+<div class="controls">
+  <button class="ctrl-btn" title="Zoom in"  onclick="zoomBy(1.3)">+</button>
+  <button class="ctrl-btn" title="Zoom out" onclick="zoomBy(0.77)">−</button>
+  <button class="ctrl-btn" title="Reset"    onclick="resetZoom()">⊙</button>
+</div>
+
+<!-- ─── TOOLTIP ────────────────────────────────────────────── -->
+<div class="tooltip" id="tooltip">
+  <div class="tooltip-title" id="tip-title"></div>
+  <div class="tooltip-domain" id="tip-domain"></div>
+</div>
+
+<!-- ─── HINT ────────────────────────────────────────────────── -->
+<div class="hint" id="hint">Click a node to explore · Scroll to zoom · Drag to pan</div>
+
+<!-- ─── DATA ─────────────────────────────────────────────────── -->
+<script src="graph-data.js"></script>
+
+<!-- ─── APP LOGIC ─────────────────────────────────────────── -->
+<script>
+// ── Globals ──────────────────────────────────────────────────
+const DOMAIN_COLORS = {
+  'foundations':   'var(--c-foundations)',
+  'ml-core':       'var(--c-ml-core)',
+  'deep-learning': 'var(--c-deep-learning)',
+  'nlp':           'var(--c-nlp)',
+  'mlops':         'var(--c-mlops)',
+  'tools':         'var(--c-tools)',
+  'projects':      'var(--c-projects)',
+};
+const DOMAIN_LABELS = {
+  'foundations':   'Foundations',
+  'ml-core':       'ML Core',
+  'deep-learning': 'Deep Learning',
+  'nlp':           'NLP & LLMs',
+  'mlops':         'MLOps',
+  'tools':         'Tools',
+  'projects':      'Projects',
+};
+const LEVEL_COLORS = { beginner: '#34d399', intermediate: '#60a5fa', advanced: '#f472b6' };
+
+let selectedNode = null;
+let activeFilters = new Set();
+let searchQuery = '';
+let simulation, svg, zoomBehavior, linkSel, nodeSel, labelSel;
+
+// ── Bootstrap ─────────────────────────────────────────────────
+window.addEventListener('DOMContentLoaded', () => {
+  applyMeta();
+  buildLegend();
+  buildFilters();
+  buildGraph();
+  setupSearch();
+  dismissHint();
+});
+
+function applyMeta() {
+  const m = GRAPH_DATA.meta;
+  document.title = m.title;
+  document.getElementById('header-title').textContent = m.title;
+  document.getElementById('header-sub').textContent = m.subtitle;
+  const links = document.getElementById('header-links');
+  if (m.channelUrl) links.innerHTML += `<a class="header-link" href="${m.channelUrl}" target="_blank">▶ YouTube</a>`;
+  if (m.githubUrl)  links.innerHTML += `<a class="header-link" href="${m.githubUrl}"  target="_blank">⌥ GitHub</a>`;
+  if (m.websiteUrl) links.innerHTML += `<a class="header-link" href="${m.websiteUrl}" target="_blank">↗ Blog</a>`;
+}
+
+function buildLegend() {
+  const el = document.getElementById('legend');
+  const domains = [...new Set(GRAPH_DATA.nodes.map(n => n.domain))];
+  let html = '<div class="legend-title">Domain</div>';
+  domains.forEach(d => {
+    html += `<div class="legend-item">
+      <div class="legend-dot" style="background:${DOMAIN_COLORS[d]||'#888'}"></div>
+      ${DOMAIN_LABELS[d] || d}
+    </div>`;
+  });
+  el.innerHTML = html;
+}
+
+function buildFilters() {
+  const bar = document.getElementById('filter-bar');
+  const domains = [...new Set(GRAPH_DATA.nodes.map(n => n.domain))];
+  domains.forEach(d => {
+    const chip = document.createElement('div');
+    chip.className = 'filter-chip';
+    chip.dataset.domain = d;
+    chip.innerHTML = `<span class="chip-dot" style="background:${DOMAIN_COLORS[d]||'#888'}"></span>${DOMAIN_LABELS[d]||d}`;
+    chip.onclick = () => toggleFilter(d);
+    bar.appendChild(chip);
+  });
+}
+
+function toggleFilter(domain) {
+  if (activeFilters.has(domain)) {
+    activeFilters.delete(domain);
+  } else {
+    activeFilters.add(domain);
+  }
+  document.querySelectorAll('.filter-chip').forEach(c => {
+    const d = c.dataset.domain;
+    if (activeFilters.size === 0) {
+      c.className = 'filter-chip';
+    } else if (activeFilters.has(d)) {
+      c.className = 'filter-chip active';
+    } else {
+      c.className = 'filter-chip inactive';
+    }
+  });
+  applyHighlight();
+}
+
+function setupSearch() {
+  const input = document.getElementById('search');
+  input.addEventListener('input', e => {
+    searchQuery = e.target.value.toLowerCase().trim();
+    applyHighlight();
+  });
+}
+
+// ── Graph ─────────────────────────────────────────────────────
+function buildGraph() {
+  const container = document.getElementById('graph-container');
+  const W = container.clientWidth;
+  const H = container.clientHeight;
+
+  const data = {
+    nodes: GRAPH_DATA.nodes.map(n => ({ ...n })),
+    links: GRAPH_DATA.edges.map(e => ({ ...e }))
+  };
+
+  // ── SVG setup ──
+  svg = d3.select('#graph');
+  const g = svg.append('g').attr('class', 'graph-g');
+
+  zoomBehavior = d3.zoom()
+    .scaleExtent([0.2, 4])
+    .on('zoom', e => g.attr('transform', e.transform));
+  svg.call(zoomBehavior);
+  svg.on('dblclick.zoom', null);
+
+  // ── Background grid pattern ──
+  const defs = svg.append('defs');
+  const pattern = defs.append('pattern')
+    .attr('id', 'grid').attr('width', 40).attr('height', 40)
+    .attr('patternUnits', 'userSpaceOnUse');
+  pattern.append('path')
+    .attr('d', 'M 40 0 L 0 0 0 40')
+    .attr('fill', 'none').attr('stroke', '#1a2540').attr('stroke-width', 0.5);
+  svg.insert('rect', ':first-child')
+    .attr('width', '100%').attr('height', '100%')
+    .attr('fill', 'url(#grid)');
+
+  // ── Node radius by connections ──
+  const degreeMap = {};
+  data.nodes.forEach(n => { degreeMap[n.id] = 0; });
+  data.links.forEach(l => {
+    degreeMap[l.source] = (degreeMap[l.source] || 0) + 1;
+    degreeMap[l.target] = (degreeMap[l.target] || 0) + 1;
+  });
+  const rScale = d3.scaleSqrt().domain([0, d3.max(Object.values(degreeMap))]).range([12, 28]);
+  data.nodes.forEach(n => { n._r = rScale(degreeMap[n.id]); });
+
+  // ── Simulation ──
+  simulation = d3.forceSimulation(data.nodes)
+    .force('link', d3.forceLink(data.links).id(d => d.id).distance(d => {
+      const avgR = (d.source._r + d.target._r) / 2;
+      return avgR * 4.5 + 30;
+    }).strength(0.4))
+    .force('charge', d3.forceManyBody().strength(-380))
+    .force('center', d3.forceCenter(W / 2, H / 2))
+    .force('collide', d3.forceCollide(d => d._r + 18))
+    .force('x', d3.forceX(W / 2).strength(0.03))
+    .force('y', d3.forceY(H / 2).strength(0.05));
+
+  // ── Links ──
+  linkSel = g.append('g').attr('class', 'links')
+    .selectAll('line')
+    .data(data.links)
+    .join('line')
+    .attr('class', 'link');
+
+  // ── Node groups ──
+  nodeSel = g.append('g').attr('class', 'nodes')
+    .selectAll('g')
+    .data(data.nodes)
+    .join('g')
+    .attr('class', 'node-g')
+    .call(d3.drag()
+      .on('start', (e, d) => { if (!e.active) simulation.alphaTarget(0.3).restart(); d.fx = d.x; d.fy = d.y; })
+      .on('drag',  (e, d) => { d.fx = e.x; d.fy = e.y; })
+      .on('end',   (e, d) => { if (!e.active) simulation.alphaTarget(0); d.fx = null; d.fy = null; })
+    )
+    .on('click', (e, d) => { e.stopPropagation(); selectNode(d); })
+    .on('mouseenter', (e, d) => showTooltip(e, d))
+    .on('mouseleave', hideTooltip);
+
+  // Glow filter
+  const filter = defs.append('filter').attr('id', 'glow');
+  filter.append('feGaussianBlur').attr('stdDeviation', '4').attr('result', 'coloredBlur');
+  const feMerge = filter.append('feMerge');
+  feMerge.append('feMergeNode').attr('in', 'coloredBlur');
+  feMerge.append('feMergeNode').attr('in', 'SourceGraphic');
+
+  // Ring (hover)
+  nodeSel.append('circle')
+    .attr('class', 'node-ring')
+    .attr('r', d => d._r + 8)
+    .attr('stroke', d => DOMAIN_COLORS[d.domain] || '#888')
+    .attr('fill', 'none')
+    .attr('stroke-opacity', 0.5);
+
+  // Main circle
+  nodeSel.append('circle')
+    .attr('class', 'node-circle')
+    .attr('r', d => d._r)
+    .attr('fill', d => DOMAIN_COLORS[d.domain] || '#888')
+    .attr('fill-opacity', 0.18)
+    .attr('stroke', d => DOMAIN_COLORS[d.domain] || '#888')
+    .attr('stroke-opacity', 0.9)
+    .attr('filter', 'url(#glow)');
+
+  // Label
+  labelSel = nodeSel.append('text')
+    .attr('class', 'node-label')
+    .attr('dy', d => d._r + 14)
+    .text(d => d.label);
+
+  // Level indicator dot
+  nodeSel.append('circle')
+    .attr('cx', d => d._r * 0.55)
+    .attr('cy', d => -d._r * 0.55)
+    .attr('r', 4)
+    .attr('fill', d => LEVEL_COLORS[d.level] || '#888')
+    .attr('stroke', 'var(--bg)')
+    .attr('stroke-width', 1.5);
+
+  // Tick
+  simulation.on('tick', () => {
+    linkSel
+      .attr('x1', d => d.source.x).attr('y1', d => d.source.y)
+      .attr('x2', d => d.target.x).attr('y2', d => d.target.y);
+    nodeSel.attr('transform', d => `translate(${d.x},${d.y})`);
+  });
+
+  // Click on background → deselect
+  svg.on('click', () => { closePanel(); clearHighlight(); selectedNode = null; });
+
+  // Store node data for lookups
+  window._nodes = data.nodes;
+  window._links = data.links;
+}
+
+// ── Highlight logic ─────────────────────────────────────────
+function applyHighlight() {
+  const hasFilter = activeFilters.size > 0;
+  const hasSearch = searchQuery.length > 0;
+  if (!hasFilter && !hasSearch && !selectedNode) { clearHighlight(); return; }
+
+  const matchedIds = new Set();
+
+  GRAPH_DATA.nodes.forEach(n => {
+    let pass = true;
+    if (hasFilter && !activeFilters.has(n.domain)) pass = false;
+    if (hasSearch && !n.label.toLowerCase().includes(searchQuery) &&
+        !n.summary.toLowerCase().includes(searchQuery) &&
+        !n.domain.toLowerCase().includes(searchQuery)) pass = false;
+    if (pass) matchedIds.add(n.id);
+  });
+
+  document.getElementById('search-count').textContent =
+    hasSearch ? `${matchedIds.size} result${matchedIds.size !== 1 ? 's' : ''}` : '';
+
+  nodeSel.select('circle.node-circle')
+    .classed('dimmed', d => !matchedIds.has(d.id));
+  labelSel.classed('dimmed', d => !matchedIds.has(d.id));
+  linkSel.classed('dimmed', d =>
+    !matchedIds.has(d.source.id || d.source) || !matchedIds.has(d.target.id || d.target));
+}
+
+function clearHighlight() {
+  document.getElementById('search-count').textContent = '';
+  if (!nodeSel) return;
+  nodeSel.select('circle.node-circle').classed('dimmed', false).classed('selected', false);
+  labelSel.classed('dimmed', false).classed('selected', false).classed('nearby', false);
+  linkSel.classed('dimmed', false).classed('highlighted', false);
+}
+
+// ── Tooltip ──────────────────────────────────────────────────
+function showTooltip(event, d) {
+  const tip = document.getElementById('tooltip');
+  document.getElementById('tip-title').textContent = d.label;
+  document.getElementById('tip-domain').textContent =
+    `${DOMAIN_LABELS[d.domain] || d.domain}  ·  ${d.level}`;
+  tip.style.left = (event.clientX + 14) + 'px';
+  tip.style.top  = (event.clientY - 10) + 'px';
+  tip.classList.add('visible');
+}
+function hideTooltip() {
+  document.getElementById('tooltip').classList.remove('visible');
+}
+
+// ── Panel ─────────────────────────────────────────────────────
+function selectNode(d) {
+  selectedNode = d;
+  clearHighlight();
+
+  // Highlight selected + neighbors
+  const neighborIds = new Set([d.id]);
+  window._links.forEach(l => {
+    const src = l.source.id || l.source;
+    const tgt = l.target.id || l.target;
+    if (src === d.id) neighborIds.add(tgt);
+    if (tgt === d.id) neighborIds.add(src);
+  });
+
+  nodeSel.select('circle.node-circle')
+    .classed('selected', n => n.id === d.id)
+    .classed('dimmed', n => !neighborIds.has(n.id));
+  labelSel
+    .classed('selected', n => n.id === d.id)
+    .classed('nearby', n => n.id !== d.id && neighborIds.has(n.id))
+    .classed('dimmed', n => !neighborIds.has(n.id));
+  linkSel
+    .classed('highlighted', l => (l.source.id||l.source) === d.id || (l.target.id||l.target) === d.id)
+    .classed('dimmed', l => !neighborIds.has(l.source.id||l.source) || !neighborIds.has(l.target.id||l.target));
+
+  renderPanel(d, neighborIds);
+  document.getElementById('panel').classList.add('open');
+}
+
+function closePanel() {
+  document.getElementById('panel').classList.remove('open');
+  clearHighlight();
+  selectedNode = null;
+}
+
+function renderPanel(d, neighborIds) {
+  const color = DOMAIN_COLORS[d.domain] || '#888';
+
+  document.getElementById('panel-domain').textContent = DOMAIN_LABELS[d.domain] || d.domain;
+  document.getElementById('panel-domain').style.color = color;
+
+  document.getElementById('panel-title').textContent = d.label;
+
+  const levelEl = document.getElementById('panel-level');
+  levelEl.innerHTML = `<span class="level-pip" style="background:${LEVEL_COLORS[d.level]||'#888'}"></span>${d.level}`;
+
+  document.getElementById('panel-summary').textContent = d.summary || '';
+
+  // Body
+  const body = document.getElementById('panel-body');
+  body.innerHTML = '';
+
+  // Resources
+  if (d.resources && d.resources.length > 0) {
+    const secTitle = document.createElement('div');
+    secTitle.className = 'section-title';
+    secTitle.textContent = 'Learning Resources';
+    body.appendChild(secTitle);
+
+    d.resources.forEach(r => {
+      if (r.type === 'notes') {
+        const card = document.createElement('div');
+        card.className = 'notes-card';
+        card.textContent = r.content;
+        body.appendChild(card);
+        return;
+      }
+      const card = document.createElement('div');
+      card.className = 'resource-card';
+
+      const typeIcon = { video: '▶', notebook: '⌥', blog: '↗', course: '◉' }[r.type] || '•';
+      const typeColor = { video: '#f87171', notebook: '#60a5fa', blog: '#34d399', course: '#a78bfa' }[r.type] || '#888';
+
+      if (r.type === 'video' && r.url && r.url.includes('embed')) {
+        // Embeddable video
+        const embedDiv = document.createElement('div');
+        embedDiv.className = 'video-embed';
+        embedDiv.innerHTML = `<iframe src="${r.url}" title="${r.label}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; picture-in-picture" allowfullscreen loading="lazy"></iframe>`;
+        card.innerHTML = `<div class="resource-type" style="color:${typeColor}">${typeIcon} Video</div>
+          <div class="resource-label">${r.label}</div>`;
+        card.style.cursor = 'default';
+        body.appendChild(card);
+        body.appendChild(embedDiv);
+        return;
+      }
+
+      if (r.type === 'video') {
+        // Link-only video (not embeddable)
+        card.innerHTML = `
+          <a href="${r.url}" target="_blank" rel="noopener">
+            <div class="resource-type" style="color:${typeColor}">${typeIcon} Video</div>
+            <div class="resource-label">${r.label}</div>
+            ${r.duration ? `<div class="resource-meta">Duration: ${r.duration}</div>` : ''}
+          </a>`;
+      } else {
+        card.innerHTML = `
+          <a href="${r.url}" target="_blank" rel="noopener">
+            <div class="resource-type" style="color:${typeColor}">${typeIcon} ${r.type}</div>
+            <div class="resource-label">${r.label}</div>
+          </a>`;
+      }
+      body.appendChild(card);
+    });
+  }
+
+  // Connected nodes
+  const prereqs = [], nexts = [];
+  window._links.forEach(l => {
+    const src = l.source.id || l.source;
+    const tgt = l.target.id || l.target;
+    if (src === d.id) nexts.push(tgt);
+    if (tgt === d.id) prereqs.push(src);
+  });
+
+  if (prereqs.length > 0) {
+    const s = document.createElement('div');
+    s.className = 'section-title';
+    s.textContent = 'Prerequisites';
+    body.appendChild(s);
+    const chips = document.createElement('div');
+    chips.className = 'connections';
+    prereqs.forEach(id => {
+      const node = GRAPH_DATA.nodes.find(n => n.id === id);
+      if (!node) return;
+      const chip = document.createElement('div');
+      chip.className = 'conn-chip';
+      chip.innerHTML = `<span class="conn-dir" style="color:${DOMAIN_COLORS[node.domain]}">←</span>${node.label}`;
+      chip.onclick = () => {
+        const nd = window._nodes.find(n => n.id === id);
+        if (nd) selectNode(nd);
+      };
+      chips.appendChild(chip);
+    });
+    body.appendChild(chips);
+  }
+
+  if (nexts.length > 0) {
+    const s = document.createElement('div');
+    s.className = 'section-title';
+    s.textContent = 'Leads To';
+    body.appendChild(s);
+    const chips = document.createElement('div');
+    chips.className = 'connections';
+    nexts.forEach(id => {
+      const node = GRAPH_DATA.nodes.find(n => n.id === id);
+      if (!node) return;
+      const chip = document.createElement('div');
+      chip.className = 'conn-chip';
+      chip.innerHTML = `<span class="conn-dir" style="color:${DOMAIN_COLORS[node.domain]}">→</span>${node.label}`;
+      chip.onclick = () => {
+        const nd = window._nodes.find(n => n.id === id);
+        if (nd) selectNode(nd);
+      };
+      chips.appendChild(chip);
+    });
+    body.appendChild(chips);
+  }
+}
+
+// ── Zoom controls ─────────────────────────────────────────────
+function zoomBy(factor) {
+  svg.transition().duration(300).call(zoomBehavior.scaleBy, factor);
+}
+function resetZoom() {
+  svg.transition().duration(400).call(zoomBehavior.transform, d3.zoomIdentity.translate(
+    document.getElementById('graph-container').clientWidth / 2,
+    document.getElementById('graph-container').clientHeight / 2
+  ).scale(0.9).translate(
+    -document.getElementById('graph-container').clientWidth / 2,
+    -document.getElementById('graph-container').clientHeight / 2
+  ));
+}
+
+// ── Hint ─────────────────────────────────────────────────────
+function dismissHint() {
+  const hint = document.getElementById('hint');
+  setTimeout(() => { hint.style.opacity = '0'; setTimeout(() => hint.remove(), 500); }, 4000);
+}
+
+// Handle resize
+window.addEventListener('resize', () => {
+  if (simulation) {
+    simulation
+      .force('center', d3.forceCenter(
+        document.getElementById('graph-container').clientWidth / 2,
+        document.getElementById('graph-container').clientHeight / 2
+      ))
+      .alpha(0.1).restart();
+  }
+});
+</script>
+</body>
+</html>
